@@ -1,0 +1,112 @@
+<div class="panel panel-primary" style="margin:20px;">
+	<div class="panel-heading">
+        	<h3 class="panel-title">Registration Form</h3>
+	</div>
+<div class="panel-body">
+    <form name="registerForm" ng-submit="$ctrl.register()" novalidate>
+<div class="col-md-12 col-sm-12">
+
+	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.gender.$invalid && registerForm.$submitted}">
+	      <label for="gender">Gender*</label>  <span ng-show="registerForm.gender.$invalid && registerForm.$submitted" class="help-block">Please select.</span>
+	      <div class="btn-group" id="gender">
+			<label ng-model="$ctrl.user.gender" name="gender" class="btn btn-success btn-lg" uib-btn-radio="'M'" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()"><i class="fa fa-male" aria-hidden="true"></i></label>
+			<label class="btn btn-success btn-lg" name="gender" ng-model="$ctrl.user.gender" uib-btn-radio="'F'" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()"><i class="fa fa-female" aria-hidden="true"></i></label>
+		  </div>
+	    </div>
+	
+	<div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.first_name.$invalid && registerForm.$submitted}">
+            <label for="first_name">First Name*	</label>  <span ng-show="registerForm.first_name.$invalid && registerForm.$submitted" class="help-block">First name is required.</span>
+            <input type="text" class="form-control input-sm" id="first_name" name="first_name" placeholder="" ng-model="$ctrl.user.first_name" ng-required="true">
+        </div>
+        <div class="form-group col-md-6 col-sm-6"  ng-class="{ 'has-error' : registerForm.last_name.$invalid && registerForm.$submitted}">
+            <label for="last_name">Last Name*</label> <span ng-show="registerForm.last_name.$invalid && registerForm.$submitted" class="help-block">Last name is required.</span>
+            <input type="text" class="form-control input-sm" id="last_name" name="last_name" placeholder="" ng-model="$ctrl.user.last_name" ng-required="true">
+        </div>
+
+		<div class="col-md-12 col-sm-12">
+        <div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.dob.$invalid && registerForm.$submitted}">
+            <label for="dob">Date of Birth*</label> <span ng-show="registerForm.dob.$invalid && registerForm.$submitted" class="help-block">Date of birth is required.</span>
+			<p class="input-group">
+			  <input type="text" id="dob" name="dob" class="form-control" ng-change="$ctrl.getEventAndRoleDetails()" uib-datepicker-popup="{{$ctrl.format}}" ng-model="$ctrl.user.dob" is-open="$ctrl.popup1.opened" datepicker-options="$ctrl.dateOptions" ng-required="true" close-text="Close" alt-input-formats="$ctrl.altInputFormats" ng-required="true"/>
+			  <span class="input-group-btn">
+				<button type="button" class="btn btn-default" ng-click="$ctrl.open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+			  </span>
+			</p>	
+		</div>
+		</div>
+	<div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.mobile.$invalid && registerForm.$submitted}">
+            <label for="mobile">Mobile*</label> <span ng-show="registerForm.mobile.$invalid && registerForm.$submitted" class="help-block">Mobile number is required.</span>
+            <input type="tel" class="form-control input-sm" id="mobile" name="mobile" placeholder="" ng-model="$ctrl.user.mobile" ng-required="true" ng-minlength="10" 
+                   ng-maxlength="10">			
+        </div>
+
+	<div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.email.$invalid && registerForm.$submitted}">
+            <label for="email">Email</label> <span ng-show="registerForm.email.$invalid && registerForm.$submitted" class="help-block">Invalid Email.</span>
+            <input type="email" class="form-control input-sm" id="email" name="email" placeholder="" ng-model="$ctrl.user.email">
+        </div>
+		
+	<div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.home_city.$invalid && registerForm.$submitted}">
+            <label for="home_city">Home City*</label>  <span ng-show="registerForm.home_city.$invalid && registerForm.$submitted" class="help-block">Please select home city.</span>
+			<select class="form-control" name="home_city" data-ng-options="t.name for t in $ctrl.centers" data-ng-model="$ctrl.user.home_city" ng-required="true"></select>
+        </div>
+		
+	<div class="form-group col-md-6 col-sm-6" ng-if="!$ctrl.user.home_city.id" ng-class="{ 'has-error' : registerForm.custom_city.$invalid && registerForm.$submitted}">
+            <label for="custom_city">City</label> <span ng-show="registerForm.custom_city.$invalid && registerForm.$submitted" class="help-block">Please enter city name.</span>
+			<input type="text" class="form-control input-sm" id="custom_city" name="custom_city" placeholder="" ng-model="$ctrl.user.custom_city" ng-required="!$ctrl.user.home_city.id">
+        </div>
+	
+	<div class="col-md-12 col-sm-12">
+	<div class="form-group col-md-6 col-sm-6"  ng-class="{ 'has-error' : registerForm.father_name.$invalid && registerForm.$submitted}">
+            <label for="father_name">Father's Name</label> <span ng-show="registerForm.father_name.$invalid && registerForm.$submitted" class="help-block">Please enter father's name.</span>
+            <input type="text" class="form-control input-sm" id="father_name" name="father_name" placeholder="" ng-model="$ctrl.user.father_name" ng-required="true">			
+        </div>
+		
+	<div class="form-group col-md-6 col-sm-6">
+            <label for="mother_name">Mother's Name</label>
+            <input type="text" class="form-control input-sm" id="mother_name" placeholder="" ng-model="$ctrl.user.mother_name">
+        </div>
+	</div>
+		
+	<div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.father_mobile.$invalid && registerForm.$submitted}">
+            <label for="father_mobile">Father's Mobile</label> <span ng-show="registerForm.father_mobile.$invalid && registerForm.$submitted" class="help-block">Please enter father's mobile.</span>
+            <input type="tel" class="form-control input-sm" id="father_mobile" name="father_mobile" placeholder="" ng-model="$ctrl.user.father_mobile" ng-required="true" ng-minlength="10" 
+                   ng-maxlength="10">
+        </div>
+		
+	<div class="form-group col-md-6 col-sm-6">
+            <label for="mother_mobile">Mother's Mobile</label>
+            <input type="tel" class="form-control input-sm" id="mother_mobile" placeholder="" ng-model="$ctrl.user.mother_mobile">
+        </div>
+	
+	
+	
+</div>
+<div class="col-md-12 col-sm-12">
+<div class="form-group col-md-12 col-sm-12" ng-if="$ctrl.roleEnabled">
+			<div class="form-group col-md-6 col-sm-6" ng-class="{ 'has-error' : registerForm.role.$invalid && registerForm.$submitted}">
+			<label for="mother_mobile">As a</label>
+			 <div ng-repeat="role in $ctrl.roles" class="btn-group">
+				<label name="role" class="btn btn-success" ng-model="$ctrl.user.role" uib-btn-radio="'{{role.name}}'" ng-required="!$ctrl.user.role && $ctrl.roleEnabled">{{role.name}}</label>
+			</div>
+			<span ng-show="registerForm.role.$invalid && registerForm.$submitted" class="help-block">Please select a role.</span>
+			</div> 
+        </div>
+		</div>
+<div class="col-md-12 col-sm-12 panel panel-primary"> 
+<div class="panel-heading">
+        	<h3 class="panel-title">Event Details</h3>
+	</div>
+<div class="panel-body">
+ <div class="form-group col-md-12 col-sm-12 checkbox checkbox-success" ng-repeat="event in $ctrl.validEvents">
+                        <input type="checkbox" id="{{event.name}}" value="{{event.name}}" name="event_name" ng-click="$ctrl.addEvent(event)"/>
+                        <label for="{{event.name}}"> {{event.name}} </label>
+                    </div>
+					</div>
+					</div>
+<div class="col-md-12 col-sm-12">
+	<div class="form-group col-md-3 col-sm-3" >
+			<input type="submit" class="btn btn-primary" value="Register"/>
+	</div>
+	</div>
+</form>
+</div>
