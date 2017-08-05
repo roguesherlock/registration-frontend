@@ -1,4 +1,4 @@
-/*function authInterceptor(JWT, AppConstants, $window, $q) {
+function authInterceptor(JWT, AppConstants, $window, $q) {
   'ngInject'
 
   return {
@@ -24,4 +24,4 @@
   }
 }
 
-export default authInterceptor;*/
+export default authInterceptor;
