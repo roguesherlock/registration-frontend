@@ -1,11 +1,12 @@
 class RegistrationCtrl {
-	constructor($scope, RegisterService) {
+	constructor($scope, $state, $q, RegisterService) {
 		'ngInject';
 		var vm = this;
 		
 		vm.$onInit = function() {
 			console.log(vm.centers);
 			console.log(vm.events);
+			vm.other_center = _.find(vm.centers,{name: 'Other'}).id;
 		}
 		
 		
@@ -27,28 +28,51 @@ class RegistrationCtrl {
 		
 		vm.register = function() {
 			console.log($scope.registerForm);
-			if ($scope.registerForm.$valid && vm.user.events && vm.user.events.length > 0) {
+			console.log(vm.user);
 			
-				console.log(vm.user);
-				RegisterService.register(vm.user).then((data) => {
-					
-				}).catch((err) => {
-					
-				})
+			if ($scope.registerForm.$valid && vm.user.events && vm.user.events.length > 0) {
+				let promises = [];
+				$scope.saving = true;
+				_.each(vm.user.events, (tempEvent) => {
+					let data = {
+						participant: angular.copy(vm.user),
+						event: tempEvent.id,
+						registration_no: "234",
+						accommodation: tempEvent.require_accomodation || false,
+						payment_status: false,
+						amount_paid: 0,
+						cashier: "test",
+						role: vm.user.role || "participant",
+						home_center: vm.user.center,
+						event_center: tempEvent.center
+					}
+					data.participant.date_of_birth = moment(data.participant.date_of_birth).format("YYYY-MM-DD");
+					console.log(data);
+					promises.push(RegisterService.register(data));
+					//RegisterService.register(data)
+				});
+				$q.all(promises).then((data) => {
+						$scope.saving = false;
+						$state.go('thanks');
+					}).catch((err) => {
+						$scope.saving = false;
+					});
+				
 			}
 		}
 			
 		
 		vm.roles = [
-			{id: 2, name: 'Helper'},
-			{id: 3, name: 'Coordinator'}
+			{id: 2, name: 'helper'},
+			{id: 3, name: 'coordinator'}
 		];
 		//vm.user.events = [];
 		
 		
 		vm.getEventAndRoleDetails = function() {
-			if(!_.isNil(vm.user.dob)) {
-				let age = vm.calculateAge(vm.user.dob, new Date());
+			if(!_.isNil(vm.user.date_of_birth)) {
+				let age = vm.calculateAge(vm.user.date_of_birth, new Date());
+				vm.user.age = age;
 				vm.roleEnabled = (age > 21);
 				vm.validEvents = _.filter(vm.events, (e) => {
 					return age >= e.min_age && age <= e.max_age && (vm.user.gender === e.gender || !e.gender);
@@ -100,15 +124,16 @@ class RegistrationCtrl {
 			console.log(_.find(vm.user.events, {id: event.id}));
 			if(_.find(vm.user.events, {id: event.id})) {
 				console.log("Removed...................")
+				event.require_accomodation = false;
 				vm.user.events = _.filter(vm.user.events, (e) => e.id !== event.id );
 			} else {
 				console.log("added...........")
+				//let temp_event = angular.copy(event);
 				vm.user.events.push(event);
 				console.log(vm.user.events);
 			}
 			
 		}
-		
 	}
 	
 	
@@ -116,7 +141,7 @@ class RegistrationCtrl {
 
 export default {
 	controller: RegistrationCtrl,
-	templateUrl: 'registration/registration.html',
+	templateUrl: 'components/registration/registration.html',
 	bindings: {
 		centers: '=',
 		events: '='

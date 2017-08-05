@@ -1,9 +1,9 @@
-//import authInterceptor from './auth.interceptor'
+import authInterceptor from './auth.interceptor'
 
 function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider) {
   'ngInject';
 
-  //$httpProvider.interceptors.push(authInterceptor);
+  $httpProvider.interceptors.push(authInterceptor);
 
   /*
     If you don't want hashbang routing, uncomment this line.
@@ -22,14 +22,32 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
     }
   });*/
   $stateProvider
-  .state('register', {
-	url: '/register',
-    template: '<registration-form centers="$resolve.centers" events="$resolve.events"></registration-form>',
-	resolve: {
-		centers: fetchCenters,
-		events: fetchEvents
-	}
-  });
+	  .state('register', {
+		url: '/register',
+		template: '<registration-form centers="$resolve.centers" events="$resolve.events"></registration-form>',
+		resolve: {
+			centers: fetchCenters,
+			events: fetchEvents
+		}
+	  })
+	  .state('thanks', {
+		url: '/thanks',
+		template: '<thank-you></thank-you>'
+	  })
+	  .state('login', {
+		url: '/login',
+		template: '<login-form></login-form>',
+		resolve: {
+		  auth: function(User) {
+			return User.ensureAuthIs(false);
+		  }
+		}
+	  })
+	  .state('list', {
+		url: '/list',
+		template: '<participant-list></participant-list>'
+	  })
+  ;
 
   $urlRouterProvider.otherwise('/');
 	

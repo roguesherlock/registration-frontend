@@ -71,6 +71,9 @@ gulp.task('build', ['html', 'browserify'], function() {
 				.pipe(concat("app.css"))
 				.pipe(gulp.dest("./dist/"));
 
+  var assets = gulp.src("src/js/ajax_loader.gif")
+				   .pipe(gulp.dest("./dist/"));	 
+
   return merge(html,js);
 });
 

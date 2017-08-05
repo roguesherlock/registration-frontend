@@ -1,5 +1,5 @@
 const AppConstants = {
-  // api: 'http://localhost:3000/api',
+  api: 'http://localhost:8000',
   jwtKey: 'jwtToken',
   appName: 'registrationFrontend',
 };

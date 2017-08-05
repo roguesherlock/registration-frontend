@@ -5,8 +5,12 @@ let servicesModule = angular.module('app.services', []);
 
 import MasterService from './masters';
 import RegisterService from './register.service';
+import UserService from './user.service';
+import JWTService from './jwt.service';
 servicesModule.service('MasterService', MasterService)
-			  .service('RegisterService', RegisterService);
+			  .service('RegisterService', RegisterService)
+			  .service('User', UserService)
+			  .service('JWT', JWTService);
 
 
 export default servicesModule;
