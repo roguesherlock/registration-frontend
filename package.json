@@ -6,8 +6,11 @@
     "gulp": "gulp build"
   },
   "dependencies": {
+    "ag-grid": "^12.0.2",
     "angular": "^1.5.0-rc.2",
+    "angular-toastr": "^2.1.1",
     "angular-ui-bootstrap": "^2.5.0",
+    "angular-ui-grid": "^4.0.6",
     "angular-ui-router": "^0.4.2",
     "angular-xeditable": "^0.8.0",
     "babel-preset-es2015": "^6.3.13",

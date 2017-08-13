@@ -44,16 +44,18 @@ class RegistrationCtrl {
 						cashier: "test",
 						role: vm.user.role || "participant",
 						home_center: vm.user.center,
-						event_center: tempEvent.center
+						event_center: tempEvent.center,
+						big_buddy: vm.user.big_buddy,
+						goal_achievement: vm.user.goal_achievement
 					}
 					data.participant.date_of_birth = moment(data.participant.date_of_birth).format("YYYY-MM-DD");
-					console.log(data);
 					promises.push(RegisterService.register(data));
 					//RegisterService.register(data)
 				});
 				$q.all(promises).then((data) => {
+						vm.savedData = data;
 						$scope.saving = false;
-						$state.go('thanks');
+						$state.go('app.thanks');
 					}).catch((err) => {
 						$scope.saving = false;
 					});

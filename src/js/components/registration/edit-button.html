@@ -1,0 +1,17 @@
+<div class="ui-grid-cell-contents">
+  <button  ng-show="!row.entity.editrow" type="button"
+     class="btn btn-xs btn-primary"
+     ng-click="grid.appScope.$ctrl.edit(row.entity)">
+    <i class="fa fa-edit"></i>
+  </button>
+  <button ng-show="row.entity.editrow" type="button" 
+     class="btn btn-xs btn-success"
+     ng-click="grid.appScope.$ctrl.saveRow(row.entity)">
+     <i class="fa fa-floppy-o"></i>
+  </button>
+  <button ng-show="row.entity.editrow" type="button" 
+     class="btn btn-xs btn-danger"
+     ng-click="grid.appScope.$ctrl.cancelEdit(row.entity)">
+     <i class="fa fa-times"></i>
+  </button>
+</div>

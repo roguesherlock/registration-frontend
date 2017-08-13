@@ -90,3 +90,6 @@
                 50% 50%
                 no-repeat;
 }
+.cs-dropdown {
+  height: 30px;
+}

@@ -45,7 +45,14 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
 	  })
 	  .state('list', {
 		url: '/list',
-		template: '<participant-list></participant-list>'
+		template: '<participant-list participant-list="$resolve.participantList" centers="$resolve.centers" events="$resolve.events"></participant-list>',
+		resolve: {
+			participantList: function(ParticipantService) {
+				return ParticipantService.get_list();
+			},
+			centers: fetchCenters,
+			events: fetchEvents
+		}
 	  })
   ;
 
