@@ -15,6 +15,11 @@ export default class Register {
 	/*let defer = this._$q.defer();
 	defer.resolve({});
 	return defer.promise;*/
-  }
+	}
+
+	update_profile(participant_details) {
+		return this._$http.patch(`${this._AppConstants.api}/events/event-participants/${participant_details.registration_no}/`, participant_details)
+			.then((res) => res.data);
+	}
 	
 }
