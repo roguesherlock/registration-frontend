@@ -9,7 +9,9 @@ var rename        = require('gulp-rename');
 var templateCache = require('gulp-angular-templatecache');
 var uglify        = require('gulp-uglify');
 var merge         = require('merge-stream');
-var concat 		  = require('gulp-concat');
+var concat 		    = require('gulp-concat');
+var beautify      = require('gulp-beautify');
+
 
 // Where our files are located
 var jsFiles   = "src/js/**/*.js";
@@ -57,6 +59,12 @@ gulp.task('views', function() {
       .pipe(gulp.dest('./src/js/config/'));
 });
 
+gulp.task('beautify', function() {
+  gulp.src('./src/js/**/*.js')
+      .pipe(beautify({indentSize: 2}))
+      .pipe(gulp.dest('./src/js/'));
+});
+
 // This task is used for building production ready
 // minified JS/CSS files into the dist/ folder
 gulp.task('build', ['html', 'browserify'], function() {
@@ -72,8 +80,7 @@ gulp.task('build', ['html', 'browserify'], function() {
 				.pipe(gulp.dest("./dist/"));
 
   var assets = gulp.src("src/js/ajax_loader.gif")
-				   .pipe(gulp.dest("./dist/"));	 
-
+           .pipe(gulp.dest("./dist/"));	 
   return merge(html,js);
 });
 

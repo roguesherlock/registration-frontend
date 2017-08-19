@@ -1,9 +1,9 @@
 import angular from 'angular';
 import moment from 'moment';
 // Import our app config files
-import constants  from './config/app.constants';
-import appConfig  from './config/app.config';
-import appRun     from './config/app.run';
+import constants from './config/app.constants';
+import appConfig from './config/app.config';
+import appRun from './config/app.run';
 import 'angular-ui-router';
 import 'angular-ui-bootstrap';
 //import 'angular-xeditable';
@@ -26,29 +26,27 @@ import './services';
 //import './settings';
 //import './editor';
 
-
-
 // Create and bootstrap application
 const requires = [
-  'ui.router',
-  'ui.bootstrap',
-  'toastr',
-  //'xeditable',
-  'ui.grid',
-  'ui.grid.edit',
-  'ui.grid.exporter',
-  //'agGrid',
-  'templates',
-  //'app.layout',
-  //'app.components',
-  'app.components',
-  //'app.home',
-  //'app.profile',
-  //'app.article',
-  'app.services',
-  //'app.auth',
-  //'app.settings',
-  //'app.editor'
+    'ui.router',
+    'ui.bootstrap',
+    'toastr',
+    //'xeditable',
+    'ui.grid',
+    'ui.grid.edit',
+    'ui.grid.exporter',
+    //'agGrid',
+    'templates',
+    //'app.layout',
+    //'app.components',
+    'app.components',
+    //'app.home',
+    //'app.profile',
+    //'app.article',
+    'app.services'
+    //'app.auth',
+    //'app.settings',
+    //'app.editor'
 ];
 
 //console.log(agGrid);
@@ -64,5 +62,5 @@ angular.module('app').config(appConfig);
 angular.module('app').run(appRun);
 
 angular.bootstrap(document, ['app'], {
-  strictDi: true
+    strictDi: true
 });
