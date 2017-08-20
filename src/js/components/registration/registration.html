@@ -70,6 +70,7 @@
 					uib-typeahead="t as t.name for t in $ctrl.centers | filter:{name:$viewValue}"
 					class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
 					typeahead-on-select="$ctrl.setHomeCenter($item)"
+					typeahead-editable="false"
 					ng-required="true">
 			<!-- <select class="form-control" name="center" data-ng-options="t.id as t.name for t in $ctrl.centers" data-ng-model="$ctrl.user.center" ng-required="true"></select> -->
 			<span ng-show="registerForm.center.$invalid && registerForm.$submitted" class="help-block">Please select your home city.</span>
