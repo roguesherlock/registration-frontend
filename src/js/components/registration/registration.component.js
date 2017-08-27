@@ -42,11 +42,11 @@ class RegistrationCtrl {
                     let data = {
                         participant: angular.copy(vm.user),
                         event: tempEvent.id,
-                        registration_no: "234",
+                        //registration_no: "",
                         accommodation: tempEvent.require_accomodation || false,
                         payment_status: false,
                         amount_paid: 0,
-                        cashier: "test",
+                        //cashier: "",
                         role: vm.user.role || "participant",
                         home_center: vm.user.center,
                         event_center: tempEvent.center,
@@ -82,6 +82,7 @@ class RegistrationCtrl {
 
 
         vm.getEventAndRoleDetails = function() {
+            vm.validEvents = [];
             vm.user.events = [];
             _.each(vm.validEvents, (e) => {
                 delete e.selected;
@@ -104,6 +105,10 @@ class RegistrationCtrl {
                         }
                         return false;
                     });
+                }
+                if(vm.validEvents.length === 1) {
+                    vm.addEvent(vm.validEvents[0]);
+                    vm.validEvents[0].selected = true;
                 }
             }
         }
