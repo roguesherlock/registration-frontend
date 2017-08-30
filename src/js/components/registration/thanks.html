@@ -5,15 +5,16 @@
 			<h3 class="panel-title">Thank you {{savedData.participant.first_name}} {{savedData.participant.last_name}} for registering</h3>
 	</div>
 	<div class="panel-body">
-				<h4>Your registration number is {{savedData.registration_no}}.<br/>
-				Please contact local Ymht center coordinator for further details.<br/></h4>
+				<h5>Step 1 of your registration is complete.<br/>
+				Your registration number is {{savedData.registration_no}}.<br/>
+				Please contact local Ymht center coordinator for further details.<br/></h5>
 				<table class="table">
 					<tbody>
 						<tr><td>Event Details:</td></tr>
 						<tr class="active"><td>Name: {{current_event.name}}</td></tr>
-						<tr class="success"><td>Event Dates: {{current_event.start_date}} - {{current_event.end_date}}</td></tr>
+						<tr class="success"><td>Event Dates: {{$ctrl.formatDate(current_event.start_date)}} - {{$ctrl.formatDate(current_event.end_date)}}</td></tr>
 						<tr class="active"><td>Registration Fees: {{current_event.fees}}</td></tr>
-						<tr class="success"><td>Last date of registration: {{current_event.last_date_of_registration}}</td></tr>
+						<tr class="success"><td>Last date of registration: {{$ctrl.formatDate(current_event.last_date_of_registration)}}</td></tr>
 						<tr class="active"><td>Late Fees: {{current_event.late_fees}}</td></tr>
 						<tr class="success"><td>Venue: {{current_event.venue.raw}}</td></tr>
 					</tbody>
