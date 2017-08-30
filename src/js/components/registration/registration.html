@@ -66,7 +66,7 @@
 		
 	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.center.$invalid && registerForm.$submitted}">
 			<label for="center">YMHT Center*</label>
-			<input type="text" ng-model="$ctrl.home_center"
+			<input id="center" name="center" type="text" ng-model="$ctrl.home_center"
 					uib-typeahead="t as t.name for t in $ctrl.centers | filter:{name:$viewValue, is_displayed: true}"
 					class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
 					typeahead-on-select="$ctrl.setHomeCenter($item)"
@@ -141,9 +141,17 @@
  <div class="form-group col-md-12 col-sm-12 checkbox checkbox-success" ng-repeat="event in $ctrl.validEvents">
                         <input class="col-sm-1" type="checkbox" id="{{event.name}}" value="{{event.name}}" name="event_name" ng-click="$ctrl.addEvent(event)" ng-model="event.selected"/>
 						<label class="col-sm-3" for="{{event.name}}"> {{event.name}} </label>
-						<input class="col-sm-1" type="checkbox" id="{{event.accomodation}}" value="{{event.accomodation}}" name="event_accomodation" ng-click="$ctrl.addAccomodation(event)" ng-if="event.accommodation_provided && event.selected" ng-model="event.require_accomodation"/>
-                        <label class="col-sm-3" for="{{event.accomodation}}" ng-if="event.accommodation_provided && event.selected"> Utaro - {{event.name}} </label>
-                    </div>
+						<div class="form-group" ng-if="event.accommodation_provided && event.selected">
+						<label class="col-sm-3" for="{{event.accomodation}}"> Utaro - {{event.name}} </label>
+						<select class="col-sm-1" id="sel1" ng-model="event.require_accomodation">
+							<option value="true" selected="selected">Yes</option>
+							<option value="false">No</option>
+						</select>
+						</div>
+						<!-- <input class="col-sm-1" type="checkbox" id="{{event.accomodation}}" value="{{event.accomodation}}" name="event_accomodation" ng-click="$ctrl.addAccomodation(event)" ng-if="event.accommodation_provided && event.selected" ng-model="event.require_accomodation"/>
+						<label class="col-sm-3" for="{{event.accomodation}}" ng-if="event.accommodation_provided && event.selected"> Utaro - {{event.name}} </label> -->
+						
+</div>
 					</div>
 					</div>
 <div class="col-md-12 col-sm-12">
