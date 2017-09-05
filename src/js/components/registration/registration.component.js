@@ -97,7 +97,7 @@ class RegistrationCtrl {
                     return age >= _.parseInt(cs[0].min_age) && age <= _.parseInt(cs[0].max_age) && (vm.user.gender === cs[0].gender || !cs[0].gender);
                 });
                 console.log("1", validCenterScopes);
-                if(_.isNil(validCenterScopes)) {
+                if(_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
                     vm.validCenters = vm.centers;
                 } else {
                     let validCentersIds = _.flatten(_.map(validCenterScopes, (cs) => _.map(cs[1], (h) => h.center)));
