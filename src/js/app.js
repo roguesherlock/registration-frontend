@@ -8,6 +8,9 @@ import 'angular-ui-router';
 import 'angular-ui-bootstrap';
 //import 'angular-xeditable';
 import 'angular-ui-grid';
+import 'ui-grid-auto-fit-columns';
+//import 'chart.js'; 
+//import 'angular-chart.js';
 import _ from 'lodash';
 import 'angular-toastr';
 window._ = _;
@@ -35,6 +38,10 @@ const requires = [
     'ui.grid',
     'ui.grid.edit',
     'ui.grid.exporter',
+    'ui.grid.autoFitColumns',
+    'ui.grid.pagination',
+    'ui.grid.resizeColumns',
+    //'chart.js',
     //'agGrid',
     'templates',
     //'app.layout',

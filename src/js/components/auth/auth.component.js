@@ -19,7 +19,7 @@ class AuthCtrl {
 
     this._User.attemptAuth(this.authType, this.formData).then(
       (res) => {
-        this._$state.go('home');
+        this._$state.go('baseLogin.list');
       },
       (err) => {
         this.isSubmitting = false;

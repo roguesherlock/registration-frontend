@@ -67,7 +67,7 @@
 	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.center.$invalid && registerForm.$submitted}">
 			<label for="center">YMHT Center*</label>
 			<input id="center" name="center" type="text" ng-model="$ctrl.home_center"
-					uib-typeahead="t as t.name for t in $ctrl.centers | filter:{name:$viewValue, is_displayed: true}"
+					uib-typeahead="t as t.name for t in $ctrl.validCenters | filter:{name:$viewValue, is_displayed: true}"
 					class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
 					typeahead-on-select="$ctrl.setHomeCenter($item)"
 					typeahead-editable="false"

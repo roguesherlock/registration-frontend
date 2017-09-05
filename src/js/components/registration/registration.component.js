@@ -6,6 +6,7 @@ class RegistrationCtrl {
         vm.$onInit = function() {
             vm.centers = vm.baseCtrl.centers;
             vm.events = vm.baseCtrl.events;
+            vm.centerScopes = vm.baseCtrl.centerScopes;
             vm.other_center = _.find(vm.centers, {
                 name: 'other'
 			}).id;
@@ -82,6 +83,7 @@ class RegistrationCtrl {
 
 
         vm.getEventAndRoleDetails = function() {
+            vm.validCenters = [];
             vm.validEvents = [];
             vm.user.events = [];
             _.each(vm.validEvents, (e) => {
@@ -90,10 +92,24 @@ class RegistrationCtrl {
             });
             if (!_.isNil(vm.user.date_of_birth)) {
                 let age = vm.calculateAge(vm.user.date_of_birth, new Date());
+                console.log("0", vm.centerScopes);
+                let validCenterScopes = _.filter(vm.centerScopes, (cs) => {
+                    return age >= _.parseInt(cs[0].min_age) && age <= _.parseInt(cs[0].max_age) && (vm.user.gender === cs[0].gender || !cs[0].gender);
+                });
+                console.log("1", validCenterScopes);
+                if(_.isNil(validCenterScopes)) {
+                    vm.validCenters = vm.centers;
+                } else {
+                    let validCentersIds = _.flatten(_.map(validCenterScopes, (cs) => _.map(cs[1], (h) => h.center)));
+                    console.log("2", validCentersIds);
+                    vm.validCenters = _.filter(vm.centers, (c) => _.includes(validCentersIds, c.id));
+                }
+                console.log("3", validCenterScopes)
+                console.log("4", vm.validCenters);
                 vm.user.age = age;
                 vm.roleEnabled = (age > 21);
                 vm.validEvents = _.filter(vm.events, (e) => {
-                    return age >= e.min_age && age <= e.max_age && (vm.user.gender === e.gender || !e.gender);
+                    return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender);
                 });
                 if (_.isNil(vm.validEvents) || vm.validEvents.length === 0) {
                     vm.validEvents = _.filter(vm.events, (e) => {

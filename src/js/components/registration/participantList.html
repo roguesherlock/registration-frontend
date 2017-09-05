@@ -1,8 +1,29 @@
-<div class="row-fluid">
-  <div class="span12" id="title">
-    <h3>Admin Administration</h3>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+      <ul class="nav navbar-nav">
+        <li><a ui-sref="baseLogin.list">Home</a></li>
+      </ul>  
+      <div class="nav navbar-form navbar-right">
+        <button type="button" class="btn btn-default" ng-click="$ctrl.logout()">Sign out</button>
+      </div>
+    </div>
   </div>
-   <div ui-grid="$ctrl.gridOptions" class="myGrid" ui-grid-exporter></div> 
-  <!-- <div ag-grid="$ctrl.gridOptions1" class="ag-fresh" style="height: 500px;"></div> -->
-   <button type="button" class="btn btn-default" ng-click="addUser()">Add row</button> 
+</nav>
+<div class="row-fluid" ng-repeat="grid in $ctrl.grids">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Participant List for {{grid[0].name}} - {{grid[1].name}}</h3>
+    </div>
+    <div class="panel-body">
+      <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns  ui-grid-pagination
+     ui-grid-resize-columns></div>
+    </div>
+  </div>  
 </div>
+<!-- <uib-tabset active="active">
+    <uib-tab index="$index + 1" ng-repeat="grid in $ctrl.grids" heading="{{grid[0].name}} - {{grid[1].name}}">
+    <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns  ui-grid-pagination
+     ui-grid-resize-columns></div>
+    </uib-tab>
+</uib-tabset> -->
