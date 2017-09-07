@@ -1,284 +1,249 @@
 class ParticipantCtrl {
-    constructor($scope, $filter, $http, $uibModal, toastr, RegisterService) {
+    constructor($scope, $filter, $http, $uibModal, $timeout, toastr, RegisterService, User) {
         'ngInject';
 
         var vm = this;
 
         vm.$onInit = function() {
-            console.log(vm.participantList);
-            console.log(vm.centers);
-            console.log(vm.events);
-            vm.initGrid();
+            vm.init();
+            vm.yesNoOptions = [
+                {id: true, value: 'Yes'},
+                {id: false, value: 'No'}
+            ];
+            vm.genderOptions = [
+                {id: 'male', value: 'Boy'},
+                {id: 'female', value: 'Girl'},
+            ];
+        }
+        
+        vm.init = function() {
+            if(vm.participantList.length > 0) {
+                let validEvents = _.filter(vm.events, (event) => {
+                    return _.inRange(_.parseInt(User.current.min_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
+                    _.inRange(_.parseInt(User.current.max_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
+                    (event.gender === User.current.gender);
+                }).map((validEvent) => {
+                    return validEvent.id;
+                });
+                var validParticipantList = _.filter(vm.participantList, (participant) => {
+                    return _.includes(validEvents, participant.event) && 
+                    (participant.event_center === User.current.center ||
+                    participant.home_center === User.current.center)
+                });
+                var event_participants_hash = _.groupBy(validParticipantList, 'event');
+            }
+            vm.grids = [];
+            _.forEach(event_participants_hash, (v, k) => {
+                vm.initGrid(k ,v);
+            });
+          }
+        
+        
+        vm.formatGender = function(value) {
+            let tempValue = _.find(vm.genderOptions, {id: value});
+            return tempValue ? tempValue.value :  value;
         }
 
-        vm.initGrid = function() {
-            vm.gridOptions = {
+        vm.formatCenter = function(center_id) {
+            let tempCenter = _.find(vm.centers, {id: center_id});
+            return tempCenter ? tempCenter.name : center_id;
+        }
+
+        vm.formatOptions = function(option) {
+            let tempOption = _.find(vm.yesNoOptions, {id: option});
+            return tempOption ? tempOption.value : option;
+        }
+
+        vm.custom_cols = [
+            {name: 'gender', func: 'vm.formatGender'},
+            {name: 'home_center', func: 'vm.formatCenter'},
+            {name: 'accommodation', func: 'vm.formatOptions'},
+            {name: 'payment_status', func: 'vm.formatOptions'}
+        ];
+
+        vm.initGrid = function(k ,v) {
+            let event = _.find(vm.events, {id: _.toInteger(k)});
+            let eventCenter = _.find(vm.centers, {id: _.toInteger(v[0].event_center)});
+            let grid = {
+                paginationPageSizes: [25, 50, 100, 200, 500],
+                paginationPageSize: 50,
                 enableSorting: true,
                 enableFiltering: true,
                 exporterMenuPdf: false,
                 enableGridMenu: true,
                 rowHeight: 40,
+                fastWatch: true,
+                exporterSuppressColumns: [ 'edit' ],
+                exporterFieldCallback: (grid, row, col, value) => {
+                    if(col.name === 'gender') {
+                        return vm.formatGender(value);
+                    } else if(col.name === 'home_center') {
+                        return vm.formatCenter(value);
+                    } else if(col.name === 'accommodation' || col.name === 'payment_status') {
+                        return vm.formatOptions(value);
+                    } else {
+                        return value;
+                    }
+                },
                 columnDefs: [{
                         name: 'Actions',
                         field: 'edit',
                         enableFiltering: false,
                         enableSorting: false,
                         cellTemplate: 'components/registration/edit-button.html',
-                        width: 100
+                        width: 60
+                    },
+                    {
+                        name: 'registration_no',
+                        field: 'registration_no',
+                        cellTemplate: `<div>{{COL_FIELD}}</div>`
                     },
                     {
                         name: 'firstName',
                         field: 'participant.first_name',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"/></div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"/></div>`
                     },
                     {
                         name: 'lastName',
                         field: 'participant.last_name',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"/></div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"/></div>`
                     },
                     {
                         name: 'birthDate',
                         field: 'participant.date_of_birth',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow">
-						<input ui-date="{dateFormat: 'dd mm yyyy'}" type="date" ui-date-format="dd mm yyyy" style="height:30px" ng-model="MODEL_COL_FIELD"/></div>`,
-                        cellFilter: `date:'dd/MM/yyyy'`
+                        cellTemplate: `<div>{{COL_FIELD}}</div>`,
+                        //cellFilter: `date:'dd/MM/yyyy'`
                     },
                     {
                         name: 'gender',
                         field: 'participant.gender',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow">
-						<select style="height:30px" data-ng-options="t for t in ['male', 'female']" data-ng-model="MODEL_COL_FIELD"></select></div>`
+                        cellTemplate: `<div>{{grid.appScope.$ctrl.formatGender(COL_FIELD)}}</div>`
                     },
                     {
                         name: 'email',
                         field: 'participant.email',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="email" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="email" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
-                    {
+                    /*{
                         name: 'event_center',
                         field: 'event_center',
                         cellTemplate: `
 						<div ng-disabled="!row.entity.editrow">
 						<select ng-disabled="!row.entity.editrow"style="height:30px" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
 						</div>`
-                    },
+                    },*/
                     {
                         name: 'home_center',
                         field: 'home_center',
-                        cellTemplate: `<div  ng-disabled="!row.entity.editrow">
-						<select  ng-disabled="!row.entity.editrow" style="height:30px" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
-						</div>`
+                        cellTemplate: `<div  ng-disabled="true">
+						<select  ng-disabled="true" class="form-control" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
+                        </div>`
                     },
                     {
                         name: 'mobile',
                         field: 'participant.mobile',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="tel" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'fatherName',
                         field: 'participant.father_name',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'fatherMobile',
                         field: 'participant.father_mobile',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="tel" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'motherName',
                         field: 'participant.mother_name',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'motherMobile',
                         field: 'participant.mother_mobile',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="tel" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'accommodation',
                         field: 'accommodation',
                         cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
-						<div ng-if="row.entity.editrow"><input type="checkbox" style="height:30px" class="checkbox checkbox-success" ng-model="MODEL_COL_FIELD"/></div>`
+                        <div ng-if="row.entity.editrow">
+						<select class="form-control" ng-disabled="!row.entity.editrow" class="form-control" data-ng-options="t.id as t.value for t in grid.appScope.$ctrl.yesNoOptions" data-ng-model="MODEL_COL_FIELD"></select>
+						</div>`
                     },
                     {
                         name: 'amount_paid',
                         field: 'amount_paid',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'cashier',
                         field: 'cashier',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'payment_status',
                         field: 'payment_status',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
-                    },
-                    {
-                        name: 'registration_no',
-                        field: 'registration_no',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+                        cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
+                        <div ng-if="row.entity.editrow">
+						<select class="form-control" ng-disabled="!row.entity.editrow" class="form-control" data-ng-options="t.id as t.value for t in grid.appScope.$ctrl.yesNoOptions" data-ng-model="MODEL_COL_FIELD"></select>
+						</div>`
                     },
                     {
                         headerName: 'big_buddy',
                         field: 'big_buddy',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+                        cellTemplate: `<div>{{COL_FIELD}}</div>`
                     },
                     {
                         headerName: 'goal_achievement',
                         field: 'goal_achievement',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
+						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     }
                 ],
-                data: vm.participantList
+                //data: v
             }
-
-            // 	vm.gridOptions1 = {
-            //   columnDefs: [
-            // 		{
-            // 			headerName: 'Actions', field: 'edit', suppressFilter: true, enableSorting: false,
-            // 			templateUrl: 'components/registration/edit-button.html', width: 100
-            //     },
-            // 		{ 
-            // 			headerName:'firstName', field: 'participant.first_name', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"/></div>`
-            // 		},
-            // 		{
-            // 			headerName:'lastName', field: 'participant.last_name', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"/></div>` 
-            // 		},
-            // 		{ 
-            // 			headerName:'birthDate', field: 'participant.date_of_birth',
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow">
-            // 			<input ui-date="{dateFormat: 'dd mm yyyy'}" type="date" ui-date-format="dd mm yyyy" style="height:30px" ng-model="MODEL_COL_FIELD"/></div>`,
-            // 			cellFilter: `date:'dd/MM/yyyy'`
-            // 		},
-            // 		{ 
-            // 			headerName:'gender', field: 'participant.gender',
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow">
-            // 			<select style="height:30px" data-ng-options="t for t in ['male', 'female']" data-ng-model="MODEL_COL_FIELD"></select></div>`
-            // 		},
-            // 		{ 
-            // 			headerName:'email', field: 'participant.email', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="email" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
-            // 		},
-            // 		{ headerName:'Event Center', field: 'event_center', 
-            // 			cellTemplate: `
-            // 			<div ng-disabled="!row.entity.editrow">
-            // 			<select ng-disabled="!row.entity.editrow"style="height:30px" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
-            // 			</div>`},
-            // 		{ headerName:'Home Center', field: 'home_center', 
-            // 			cellTemplate: `<div  ng-disabled="!row.entity.editrow">
-            // 			<select  ng-disabled="!row.entity.editrow" style="height:30px" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
-            // 			</div>`},
-            // 		{ 
-            // 			headerName:'mobile', field: 'participant.mobile', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="tel" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
-            // 	  },
-            // 		{ 
-            // 			headerName:'fatherName', field: 'participant.father_name', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
-            // 		},
-            // 		{ 
-            // 			headerName:'fatherMobile', field: 'participant.father_mobile', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="tel" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`
-            // 		},
-            // 		{ headerName:'motherName', field: 'participant.mother_name', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>` },
-            //     { headerName:'motherMobile', field: 'participant.mother_mobile', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="tel" style="height:30px" ng-model="MODEL_COL_FIELD"</div>` },
-            //     { headerName:'accommodation', field: 'accommodation', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
-            // 			<div ng-if="row.entity.editrow"><input type="checkbox" style="height:30px" class="checkbox checkbox-success" ng-model="MODEL_COL_FIELD"/></div>`},
-            // 		{ headerName:'amount_paid', field: 'amount_paid', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`},
-            // 		{ headerName:'cashier', field: 'cashier', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`},
-            // 		{ headerName:'payment_status', field: 'payment_status', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`},
-            // 		{ headerName:'registration_no', field: 'registration_no', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`},
-            // 		{ headerName:'big_buddy', field: 'big_buddy', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`},
-            // 		{ headerName:'goal_achievement', field: 'goal_achievement', 
-            // 			cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-            // 			<div ng-if="row.entity.editrow"><input type="text" style="height:30px" ng-model="MODEL_COL_FIELD"</div>`}
-            //   ],
-            // 	rowData : vm.participantList,
-            // 	defaultColDef: {
-            //   // set every column width
-            // 		width: 100,
-            // 		// make every column editable
-            // 		editable: true,
-            // 		// make every column use 'text' filter by default
-            // 		filter: 'text'
-            // 	},	
-            // 	enableFilter: true,
-            // 	floatingFilter: true,
-            // 	enableColResize: true,
-            //   enableSorting: true,
-
-            // }
-
-
-
+            $timeout(function () { 
+                grid.data = v; 
+            }, 100);
+            //grid.data = v;
+            vm.grids.push([event, eventCenter, grid]);
         }
-
-        vm.edit = function(row) {
+        
+        vm.edit = function(uiGridComp) {
             //Get the index of selected row from row object
-            var index = vm.gridOptions.data.indexOf(row);
+            var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
             //Use that to set the editrow attrbute value for seleted rows
-            vm.gridOptions.data[index].editrow = !vm.gridOptions.data[index].editrow;
+            uiGridComp.grid.options.data[index].editrow = !uiGridComp.grid.options.data[index].editrow;
         };
 
-        vm.cancelEdit = function(row) {
+        vm.cancelEdit = function(uiGridComp) {
             //Get the index of selected row from row object
-            var index = vm.gridOptions.data.indexOf(row);
+            var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
             //Use that to set the editrow attrbute value to false
-            vm.gridOptions.data[index].editrow = false;
+            uiGridComp.grid.options.data[index].editrow = false;
             //Display Successfull message after save
             toastr.info('Row editing cancelled', 'info');
         };
 
-        vm.saveRow = function(row) {
+        vm.saveRow = function(uiGridComp) {
             //get the index of selected row 
-            var index = vm.gridOptions.data.indexOf(row);
-            row.participant.date_of_birth = moment(row.participant.date_of_birth).format("YYYY-MM-DD")
+            var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
+            uiGridComp.entity.participant.date_of_birth = moment(uiGridComp.entity.participant.date_of_birth).format("YYYY-MM-DD")
             //Remove the edit mode when user click on Save button
-            RegisterService.update_profile(row).then((res) => {
-                vm.gridOptions.data[index].editrow = false;
+            RegisterService.update_profile(uiGridComp.entity).then((res) => {
+                uiGridComp.grid.options.data[index].editrow = false;
                 toastr.success('Data saved successfully', '');
             }).catch((error) => {
                 toastr.error('An error occurred while saving.', '');
@@ -301,9 +266,11 @@ class ParticipantCtrl {
             // });
         };
 
+        vm.logout = function() {
+            User.logout();
+        }
+
         vm.editRow = function(grid, row) {
-            console.log(grid, row);
-            console.log("rrrrrrr");
             $uibModal.open({
                 //templateUrl: 'components/registration/edit-modal.html',
                 //controller: ['$modalInstance', 'grid', 'row', RowEditCtrl],

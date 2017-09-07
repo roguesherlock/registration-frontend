@@ -5,7 +5,7 @@ function authInterceptor(JWT, AppConstants, $window, $q) {
     // automatically attach Authorization header
     request: function(config) {
       if(config.url.indexOf(AppConstants.api) === 0 && JWT.get()) {
-        config.headers.Authorization = 'Token ' + JWT.get();
+        config.headers.Authorization = 'JWT ' + JWT.get();
       }
       return config;
     },
@@ -16,7 +16,7 @@ function authInterceptor(JWT, AppConstants, $window, $q) {
         // clear any JWT token being stored
         JWT.destroy();
         // do a hard page refresh
-        $window.location.reload();
+        $window.location.href = '/';
       }
       return $q.reject(rejection);
     }

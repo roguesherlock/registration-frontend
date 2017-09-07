@@ -1,5 +1,5 @@
 class BaseCtrl {
-    constructor() {
+    constructor(User) {
         'ngInject';
     }
 }
@@ -9,6 +9,7 @@ export default {
     templateUrl: 'components/registration/base.html',
     bindings: {
         centers: '=',
-        events: '='
+        events: '=',
+        centerScopes: '='
     }
 }

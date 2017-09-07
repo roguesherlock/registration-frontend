@@ -18,7 +18,7 @@ export default class Register {
     }
 
     update_profile(participant_details) {
-        return this._$http.patch(`${this._AppConstants.api}/events/event-participants/${participant_details.registration_no}/`, participant_details)
+        return this._$http.patch(`${this._AppConstants.api}/events/event-participants/${participant_details.id}/`, participant_details)
             .then((res) => res.data);
     }
 

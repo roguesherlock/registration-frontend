@@ -16,16 +16,17 @@ export default class User {
   attemptAuth(type, credentials) {
     let route = (type === 'login') ? '/login' : '';
     return this._$http({
-      url: this._AppConstants.api + '/v1/auth/login/',//'/users' + route,
+      url: `${this._AppConstants.api}/api-token-auth/`,
       method: 'POST',
-      data: {
-        user: credentials
-      }
+      data: credentials
     }).then(
       (res) => {
-        this._JWT.save(res.data.user.token);
-        this.current = res.data.user;
-
+        this._JWT.save(res.data.token);
+        this._$http.get(`${this._AppConstants.api}/me` ).then((res) => {
+          this.current = res.data;  
+        }).catch((error) => {
+          
+        });
         return res;
       }
     );
@@ -64,17 +65,16 @@ export default class User {
 
     } else {
       this._$http({
-        url: this._AppConstants.api + '/user',
+        url: `${this._AppConstants.api}/me`,
         method: 'GET',
         headers: {
-          Authorization: 'Token ' + this._JWT.get()
+          Authorization: 'JWT ' + this._JWT.get()
         }
       }).then(
         (res) => {
-          this.current = res.data.user;
+          this.current = res.data;
           deferred.resolve(true);
         },
-
         (err) => {
           this._JWT.destroy();
           deferred.resolve(false);
@@ -91,7 +91,7 @@ export default class User {
 
     this.verifyAuth().then((authValid) => {
       if (authValid !== bool) {
-        this._$state.go('app.home')
+        this._$state.go('baseLogin.list');
         deferred.resolve(false);
       } else {
         deferred.resolve(true);

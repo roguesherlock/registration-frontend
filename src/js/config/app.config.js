@@ -27,9 +27,10 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
             abstract: true,
             resolve: {
                 centers: fetchCenters,
-                events: fetchEvents
+                events: fetchEvents,
+                centerScopes: fetchCenterScopes
             },
-            template: '<base-layout centers="$resolve.centers" events="$resolve.events"></base-layout>'
+            template: '<base-layout centers="$resolve.centers" events="$resolve.events", center-scopes="$resolve.centerScopes"></base-layout>'
         })
         .state('base.register', {
             url: '/register',
@@ -39,7 +40,17 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
             url: '/thanks',
             template: '<thank-you></thank-you>'
         })
-        .state('login', {
+        .state('baseLogin', {
+            url: "",
+            abstract: true,
+            resolve: {
+                auth: function(User) {
+                    return User.verifyAuth();
+                }
+            },
+            template: `<base-layout></base-layout>`
+        })
+        .state('baseLogin.login', {
             url: '/login',
             template: '<login-form></login-form>',
             resolve: {
@@ -48,7 +59,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
                 }
             }
         })
-        .state('list', {
+        .state('baseLogin.list', {
             url: '/list',
             template: '<participant-list participant-list="$resolve.participantList" centers="$resolve.centers" events="$resolve.events"></participant-list>',
             resolve: {
@@ -56,11 +67,12 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
                     return ParticipantService.get_list();
                 },
                 centers: fetchCenters,
-                events: fetchEvents
+                events: fetchEvents,
+                centerScopes: fetchCenterScopes
             }
         });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/login');
 
     function fetchCenters(MasterService) {
         return MasterService.getCenters().then((res) => res);
@@ -68,6 +80,10 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
 
     function fetchEvents(MasterService) {
         return MasterService.getEvents().then((res) => res);
+    }
+
+    function fetchCenterScopes(MasterService) {
+        return MasterService.getCenterScopes().then((res) => res);
     }
 }
 
