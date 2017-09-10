@@ -1,5 +1,5 @@
 class ParticipantCtrl {
-    constructor($scope, $filter, $http, $uibModal, $timeout, toastr, RegisterService, User) {
+    constructor($scope, $filter, $http, $uibModal, $timeout, toastr, RegisterService, User, ParticipantService) {
         'ngInject';
 
         var vm = this;
@@ -105,8 +105,10 @@ class ParticipantCtrl {
                 enableGridMenu: true,
                 rowHeight: 40,
                 fastWatch: true,
-                exporterSuppressColumns: ['edit'],
                 exporterFieldCallback: (grid, row, col, value) => {
+                    if(col.name === 'Actions') {
+                        return row.entity.registration_status === 0 ? 'Registered' : 'Cancelled';
+                    }
                     if (col.name === 'gender') {
                         return vm.formatGender(value);
                     } else if (col.name === 'home_center') {
@@ -117,6 +119,7 @@ class ParticipantCtrl {
                         return value;
                     }
                 },
+                rowTemplate: `<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ui-grid-cell ng-class="{'my-css-class': grid.appScope.$ctrl.rowFormatter(row)}" ></div>`,
                 columnDefs: [{
                         name: 'Actions',
                         field: 'edit',
@@ -247,7 +250,7 @@ class ParticipantCtrl {
                 //data: v
             }
             $timeout(function() {
-                grid.data = v;
+                grid.data = _.orderBy(v, 'registration_status');
             }, 100);
             //grid.data = v;
             vm.grids.push([event, eventCenter, grid]);
@@ -260,6 +263,21 @@ class ParticipantCtrl {
             //Use that to set the editrow attrbute value for seleted rows
             uiGridComp.grid.options.data[index].editrow = !uiGridComp.grid.options.data[index].editrow;
         };
+
+        vm.activate = function(uiGridComp) {
+            if(uiGridComp.entity.registration_status === 1) {
+                uiGridComp.entity.registration_status = 0;
+            } else {
+                uiGridComp.entity.registration_status = 1;
+            }
+            vm.saveRow(uiGridComp).then((res) => {
+              vm.init();  
+            });
+        }
+
+        vm.rowFormatter = function(row) {
+            return row.entity.registration_status === 1;
+        }
 
         vm.cancelEdit = function(uiGridComp) {
             //Get the index of selected row from row object
@@ -276,7 +294,7 @@ class ParticipantCtrl {
             uiGridComp.entity.participant.date_of_birth = moment(uiGridComp.entity.participant.date_of_birth).format("YYYY-MM-DD")
             //Remove the edit mode when user click on Save button
             vm.baseCtrl.saving = true;
-            RegisterService.update_profile(uiGridComp.entity).then((res) => {
+            return RegisterService.update_profile(uiGridComp.entity).then((res) => {
                 uiGridComp.grid.options.data[index].editrow = false;
                 vm.baseCtrl.saving = false;
                 toastr.success('Data saved successfully', '');
@@ -284,22 +302,6 @@ class ParticipantCtrl {
                 vm.baseCtrl.saving = false;
                 toastr.error('An error occurred while saving.', '');
             });
-
-
-            //Call the function to save the data to database
-            // CustomerService.SaveCustomer($scope).then(function (d) {
-            //     //Display Successfull message after save
-            //     $scope.alerts.push({
-            //         msg: 'Data saved successfully',
-            //         type: 'success'
-            //     });
-            // }, function (d) {
-            //     //Display Error message if any error occurs
-            //     $scope.alerts.push({
-            //         msg: d.data,
-            //         type: 'danger'
-            //     });
-            // });
         };
 
         vm.logout = function() {
@@ -308,8 +310,6 @@ class ParticipantCtrl {
 
         vm.editRow = function(grid, row) {
             $uibModal.open({
-                //templateUrl: 'components/registration/edit-modal.html',
-                //controller: ['$modalInstance', 'grid', 'row', RowEditCtrl],
                 component: 'editRow',
                 resolve: {
                     grid: function() {
