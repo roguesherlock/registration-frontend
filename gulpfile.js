@@ -81,6 +81,17 @@ gulp.task('build', ['html', 'browserify'], function() {
 
   var assets = gulp.src("src/js/ajax_loader.gif")
            .pipe(gulp.dest("./dist/"));	 
+
+  let paths = {
+    vendors: ['src/vendors/*'],
+    fonts: ['src/vendors/fonts/*']
+  }
+
+  gulp.src(paths.vendors)
+      .pipe(gulp.dest("./dist/"));
+
+  gulp.src(paths.fonts)
+      .pipe(gulp.dest("./dist/fonts/"));
   return merge(html,js);
 });
 

@@ -5,65 +5,97 @@ class ParticipantCtrl {
         var vm = this;
 
         vm.$onInit = function() {
+            console.log(vm.baseCtrl.auth);
             vm.init();
-            vm.yesNoOptions = [
-                {id: true, value: 'Yes'},
-                {id: false, value: 'No'}
+            vm.yesNoOptions = [{
+                    id: true,
+                    value: 'Yes'
+                },
+                {
+                    id: false,
+                    value: 'No'
+                }
             ];
-            vm.genderOptions = [
-                {id: 'male', value: 'Boy'},
-                {id: 'female', value: 'Girl'},
+            vm.genderOptions = [{
+                    id: 'male',
+                    value: 'Boy'
+                },
+                {
+                    id: 'female',
+                    value: 'Girl'
+                },
             ];
         }
-        
+
         vm.init = function() {
-            if(vm.participantList.length > 0) {
+            if (vm.participantList.length > 0) {
                 let validEvents = _.filter(vm.events, (event) => {
                     return _.inRange(_.parseInt(User.current.min_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
-                    _.inRange(_.parseInt(User.current.max_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
-                    (event.gender === User.current.gender);
+                        _.inRange(_.parseInt(User.current.max_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
+                        (event.gender === User.current.gender);
                 }).map((validEvent) => {
                     return validEvent.id;
                 });
                 var validParticipantList = _.filter(vm.participantList, (participant) => {
-                    return _.includes(validEvents, participant.event) && 
-                    (participant.event_center === User.current.center ||
-                    participant.home_center === User.current.center)
+                    return _.includes(validEvents, participant.event) &&
+                        (participant.event_center === User.current.center ||
+                            participant.home_center === User.current.center)
                 });
                 var event_participants_hash = _.groupBy(validParticipantList, 'event');
             }
             vm.grids = [];
             _.forEach(event_participants_hash, (v, k) => {
-                vm.initGrid(k ,v);
+                vm.initGrid(k, v);
             });
-          }
-        
-        
+        }
+
+
         vm.formatGender = function(value) {
-            let tempValue = _.find(vm.genderOptions, {id: value});
-            return tempValue ? tempValue.value :  value;
+            let tempValue = _.find(vm.genderOptions, {
+                id: value
+            });
+            return tempValue ? tempValue.value : value;
         }
 
         vm.formatCenter = function(center_id) {
-            let tempCenter = _.find(vm.centers, {id: center_id});
+            let tempCenter = _.find(vm.centers, {
+                id: center_id
+            });
             return tempCenter ? tempCenter.name : center_id;
         }
 
         vm.formatOptions = function(option) {
-            let tempOption = _.find(vm.yesNoOptions, {id: option});
+            let tempOption = _.find(vm.yesNoOptions, {
+                id: option
+            });
             return tempOption ? tempOption.value : option;
         }
 
-        vm.custom_cols = [
-            {name: 'gender', func: 'vm.formatGender'},
-            {name: 'home_center', func: 'vm.formatCenter'},
-            {name: 'accommodation', func: 'vm.formatOptions'},
-            {name: 'payment_status', func: 'vm.formatOptions'}
+        vm.custom_cols = [{
+                name: 'gender',
+                func: 'vm.formatGender'
+            },
+            {
+                name: 'home_center',
+                func: 'vm.formatCenter'
+            },
+            {
+                name: 'accommodation',
+                func: 'vm.formatOptions'
+            },
+            {
+                name: 'payment_status',
+                func: 'vm.formatOptions'
+            }
         ];
 
-        vm.initGrid = function(k ,v) {
-            let event = _.find(vm.events, {id: _.toInteger(k)});
-            let eventCenter = _.find(vm.centers, {id: _.toInteger(v[0].event_center)});
+        vm.initGrid = function(k, v) {
+            let event = _.find(vm.events, {
+                id: _.toInteger(k)
+            });
+            let eventCenter = _.find(vm.centers, {
+                id: _.toInteger(v[0].event_center)
+            });
             let grid = {
                 paginationPageSizes: [25, 50, 100, 200, 500],
                 paginationPageSize: 50,
@@ -73,13 +105,13 @@ class ParticipantCtrl {
                 enableGridMenu: true,
                 rowHeight: 40,
                 fastWatch: true,
-                exporterSuppressColumns: [ 'edit' ],
+                exporterSuppressColumns: ['edit'],
                 exporterFieldCallback: (grid, row, col, value) => {
-                    if(col.name === 'gender') {
+                    if (col.name === 'gender') {
                         return vm.formatGender(value);
-                    } else if(col.name === 'home_center') {
+                    } else if (col.name === 'home_center') {
                         return vm.formatCenter(value);
-                    } else if(col.name === 'accommodation' || col.name === 'payment_status') {
+                    } else if (col.name === 'accommodation' || col.name === 'payment_status') {
                         return vm.formatOptions(value);
                     } else {
                         return value;
@@ -214,13 +246,14 @@ class ParticipantCtrl {
                 ],
                 //data: v
             }
-            $timeout(function () { 
-                grid.data = v; 
+            $timeout(function() {
+                grid.data = v;
             }, 100);
             //grid.data = v;
             vm.grids.push([event, eventCenter, grid]);
         }
-        
+
+
         vm.edit = function(uiGridComp) {
             //Get the index of selected row from row object
             var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
@@ -242,10 +275,13 @@ class ParticipantCtrl {
             var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
             uiGridComp.entity.participant.date_of_birth = moment(uiGridComp.entity.participant.date_of_birth).format("YYYY-MM-DD")
             //Remove the edit mode when user click on Save button
+            vm.baseCtrl.saving = true;
             RegisterService.update_profile(uiGridComp.entity).then((res) => {
                 uiGridComp.grid.options.data[index].editrow = false;
+                vm.baseCtrl.saving = false;
                 toastr.success('Data saved successfully', '');
             }).catch((error) => {
+                vm.baseCtrl.saving = false;
                 toastr.error('An error occurred while saving.', '');
             });
 
@@ -295,5 +331,8 @@ export default {
         participantList: '=',
         centers: '=',
         events: '='
+    },
+    require: {
+        baseCtrl: '^baseLayout'
     }
 }
