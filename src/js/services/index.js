@@ -10,10 +10,10 @@ import JWTService from './jwt.service';
 import ParticipantService from './participant.service';
 
 servicesModule.service('MasterService', MasterService)
-			  .service('RegisterService', RegisterService)
-			  .service('User', UserService)
-			  .service('JWT', JWTService)
-			  .service('ParticipantService', ParticipantService);
+    .service('RegisterService', RegisterService)
+    .service('User', UserService)
+    .service('JWT', JWTService)
+    .service('ParticipantService', ParticipantService);
 
 
 export default servicesModule;

@@ -3,7 +3,7 @@ class ThankCtrl {
         'ngInject';
         var vm = this;
         vm.$onInit = function() {
-            vm.centers = vm.baseCtrl.centers;    
+            vm.centers = vm.baseCtrl.centers;
             vm.events = vm.baseCtrl.events;
         }
         vm.formatDate = function(date) {

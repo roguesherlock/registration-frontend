@@ -25,18 +25,19 @@ export default class Masters {
 
     getCenterScopes() {
         let deferred = this._$q.defer();
-        let pro1 =  this._$http.get(`${this._AppConstants.api}/base/scoped-centers/`, {
-            cache: true
-        })
-        .then((res) => res.data);
+        let pro1 = this._$http.get(`${this._AppConstants.api}/base/scoped-centers/`, {
+                cache: true
+            })
+            .then((res) => res.data);
         let pro2 = this._$http.get(`${this._AppConstants.api}/base/center-scopes/`, {
-            cache: true
-        })
-        .then((res) => res.data);
+                cache: true
+            })
+            .then((res) => res.data);
         this._$q.all([pro1, pro2]).then(function(data) {
-            console.log(data, deferred, "11111");
             let gsc = _.groupBy(data[0], 'center_scope');
-            let m = _.map(gsc, (v, k) => [_.find(data[1], {id: _.parseInt(k)}), v]);
+            let m = _.map(gsc, (v, k) => [_.find(data[1], {
+                id: _.parseInt(k)
+            }), v]);
             deferred.resolve(m);
         });
         return deferred.promise;

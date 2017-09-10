@@ -9,7 +9,7 @@ class RegistrationCtrl {
             vm.centerScopes = vm.baseCtrl.centerScopes;
             vm.other_center = _.find(vm.centers, {
                 name: 'other'
-			}).id;
+            }).id;
         }
 
         vm.format = 'dd-MMMM-yyyy';
@@ -38,7 +38,7 @@ class RegistrationCtrl {
         vm.register = function() {
             if ($scope.registerForm.$valid && vm.user.events && vm.user.events.length > 0) {
                 let promises = [];
-                $scope.saving = true;
+                vm.baseCtrl.saving = true;
                 _.each(vm.user.events, (tempEvent) => {
                     let data = {
                         participant: angular.copy(vm.user),
@@ -58,13 +58,13 @@ class RegistrationCtrl {
                     promises.push(RegisterService.register(data));
                 });
                 $q.all(promises).then((data) => {
-                    $scope.saving = false;
+                    vm.baseCtrl.saving = false;
                     $state.go('base.thanks');
                     _.defer(function() {
                         $rootScope.$emit('registered', data[0]);
                     });
                 }).catch((err) => {
-                    $scope.saving = false;
+                    vm.baseCtrl.saving = false;
                 });
             }
         }
@@ -86,7 +86,7 @@ class RegistrationCtrl {
             vm.validCenters = [];
             vm.validEvents = [];
             vm.user.events = [];
-            _.each(vm.validEvents, (e) => {
+            _.each(vm.events, (e) => {
                 delete e.selected;
                 delete e.require_accomodation;
             });
@@ -97,7 +97,7 @@ class RegistrationCtrl {
                     return age >= _.parseInt(cs[0].min_age) && age <= _.parseInt(cs[0].max_age) && (vm.user.gender === cs[0].gender || !cs[0].gender);
                 });
                 console.log("1", validCenterScopes);
-                if(_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
+                if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
                     vm.validCenters = vm.centers;
                 } else {
                     let validCentersIds = _.flatten(_.map(validCenterScopes, (cs) => _.map(cs[1], (h) => h.center)));
@@ -122,7 +122,7 @@ class RegistrationCtrl {
                         return false;
                     });
                 }
-                if(vm.validEvents.length === 1) {
+                if (vm.validEvents.length === 1) {
                     vm.addEvent(vm.validEvents[0]);
                     vm.validEvents[0].selected = true;
                 }
