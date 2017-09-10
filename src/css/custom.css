@@ -19,3 +19,7 @@
     display: block;
     overflow: visible
 }
+#scrollable-dropdown-menu ul {
+	max-height: 150px;
+	overflow-y: auto;
+}
