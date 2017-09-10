@@ -1,5 +1,5 @@
 <div class="ui-grid-cell-contents">
-  <button  ng-show="!row.entity.editrow" type="button"
+  <button  ng-show="!row.entity.editrow && row.entity.registration_status === 0" type="button"
      class="btn btn-xs btn-primary"
      ng-click="grid.appScope.$ctrl.edit(row)">
     <i class="fa fa-edit"></i>
@@ -13,5 +13,10 @@
      class="btn btn-xs btn-danger"
      ng-click="grid.appScope.$ctrl.cancelEdit(row)">
      <i class="fa fa-times"></i>
+  </button>
+  <button  ng-show="!row.entity.editrow" type="button"
+     class="btn btn-xs btn-warning"
+     ng-click="grid.appScope.$ctrl.activate(row)">
+    <i class="fa fa-exchange"></i>
   </button>
 </div>
