@@ -4,7 +4,7 @@
 <div class="row">
 <div class="panel panel-primary" style="margin:20px;">
 	<div class="panel-heading">
-        	<h3 class="panel-title">Fuzion 2017 Registration Form</h3>
+        	<h3 class="panel-title">Fuzion 2017 Registration Form <i style="float:right;">Fields marked (*) are mandatory.</i></h3>
 	</div>
 <div class="panel-body">
     <form name="registerForm" ng-submit="$ctrl.register()" novalidate>
@@ -66,12 +66,14 @@
 		
 	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.center.$invalid && registerForm.$submitted}">
 			<label for="center">YMHT Center*</label>
+			<div id="scrollable-dropdown-menu">
 			<input id="center" name="center" type="text" ng-model="$ctrl.home_center"
 					uib-typeahead="t as t.name for t in $ctrl.validCenters | filter:{name:$viewValue, is_displayed: true}"
 					class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
 					typeahead-on-select="$ctrl.setHomeCenter($item)"
 					typeahead-editable="false"
 					ng-required="true">
+			</div>
 			<!-- <select class="form-control" name="center" data-ng-options="t.id as t.name for t in $ctrl.centers" data-ng-model="$ctrl.user.center" ng-required="true"></select> -->
 			<span ng-show="registerForm.center.$invalid && registerForm.$submitted" class="help-block">Please select your home city.</span>
         </div>
