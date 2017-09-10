@@ -253,6 +253,7 @@ class ParticipantCtrl {
             vm.grids.push([event, eventCenter, grid]);
         }
 
+
         vm.edit = function(uiGridComp) {
             //Get the index of selected row from row object
             var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);

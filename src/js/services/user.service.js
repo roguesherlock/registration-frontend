@@ -100,7 +100,6 @@ export default class User {
             } else {
                 deferred.resolve(true);
             }
-
         });
 
         return deferred.promise;
