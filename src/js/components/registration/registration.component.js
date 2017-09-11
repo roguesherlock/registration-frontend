@@ -1,8 +1,8 @@
 class RegistrationCtrl {
-    constructor($scope, $state, $q, $rootScope, $uibModal, RegisterService) {
+    constructor($scope, $state, $q, $rootScope, $uibModal, toastr, RegisterService) {
         'ngInject';
         var vm = this;
-
+        vm._ = _;
         vm.$onInit = function() {
             vm.centers = vm.baseCtrl.centers;
             vm.events = vm.baseCtrl.events;
@@ -37,6 +37,14 @@ class RegistrationCtrl {
 
         vm.register = function() {
             if ($scope.registerForm.$valid && vm.user.events && vm.user.events.length > 0) {
+                var abs = true;
+                _.each(vm.user.events, (e1) => {
+                    if(_.isNil(e1.require_accomodation)) {
+                        toastr.error('Please select utaro.', '');
+                        abs = false;
+                    }                    
+                });
+                if(!abs) return;
                 let promises = [];
                 vm.baseCtrl.saving = true;
                 _.each(vm.user.events, (tempEvent) => {
@@ -98,12 +106,24 @@ class RegistrationCtrl {
                 });
                 console.log("1", validCenterScopes);
                 if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
+                    if(vm.user.gender === 'male') {
+                        validCenterScopes = _.filter(vm.centerScopes, (cen) => {
+                            return cen[0].gender === 'male';
+                        });
+                    } else if(vm.user.gender === 'female') {
+                        validCenterScopes = _.filter(vm.centerScopes, (cen) => {
+                            return !cen[0].gender || cen[0].gender === 'female';
+                        });
+                    }
+                } 
+                if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
                     vm.validCenters = vm.centers;
                 } else {
                     let validCentersIds = _.flatten(_.map(validCenterScopes, (cs) => _.map(cs[1], (h) => h.center)));
                     console.log("2", validCentersIds);
                     vm.validCenters = _.filter(vm.centers, (c) => _.includes(validCentersIds, c.id));
                 }
+                vm.validCenters = _.orderBy(vm.validCenters, 'name');
                 console.log("3", validCenterScopes)
                 console.log("4", vm.validCenters);
                 vm.user.age = age;
