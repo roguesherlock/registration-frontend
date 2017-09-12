@@ -8,7 +8,7 @@ class RegistrationCtrl {
             vm.events = vm.baseCtrl.events;
             vm.centerScopes = vm.baseCtrl.centerScopes;
             vm.other_center = _.find(vm.centers, {
-                name: 'other'
+                name: 'Other'
             }).id;
         }
 
@@ -39,7 +39,7 @@ class RegistrationCtrl {
             if ($scope.registerForm.$valid && vm.user.events && vm.user.events.length > 0) {
                 var abs = true;
                 _.each(vm.user.events, (e1) => {
-                    if(_.isNil(e1.require_accomodation)) {
+                    if(_.isNil(e1.require_accomodation) && e1.accommodation_provided) {
                         toastr.error('Please select utaro.', '');
                         abs = false;
                     }                    

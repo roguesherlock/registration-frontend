@@ -144,11 +144,15 @@
                         <input class="col-sm-1" type="checkbox" id="{{event.name}}" value="{{event.name}}" name="event_name" ng-click="$ctrl.addEvent(event)" ng-model="event.selected"/>
 						<label class="col-sm-3" for="{{event.name}}"> {{event.name}} </label>
 						<div class="form-group" ng-if="event.accommodation_provided && event.selected">
-						<select class="col-sm-1" id="sel1" ng-model="event.require_accomodation">
+						<label class="col-sm-3" for="{{event.accomodation}}"> Utaro - {{event.name}} </label>
+						<div class="radio-inline" id="sel1">
+							<label><input type="radio" name="event{{$index}}_{{event.id}}" value="true" ng-model="event.require_accomodation">Yes</label>
+							<label><input type="radio" name="event{{$index}}_{{event.id}}" value="false" ng-model="event.require_accomodation">No</label>
+						</div>
+						<!-- <select class="col-sm-1" id="sel1" ng-model="event.require_accomodation">
 							<option value="true" selected="selected">Yes</option>
 							<option value="false">No</option>
-						</select>
-						<label class="col-sm-3" for="{{event.accomodation}}"> Utaro - {{event.name}} </label>
+						</select> -->
 						</div>
 						<!-- <input class="col-sm-1" type="checkbox" id="{{event.accomodation}}" value="{{event.accomodation}}" name="event_accomodation" ng-click="$ctrl.addAccomodation(event)" ng-if="event.accommodation_provided && event.selected" ng-model="event.require_accomodation"/>
 						<label class="col-sm-3" for="{{event.accomodation}}" ng-if="event.accommodation_provided && event.selected"> Utaro - {{event.name}} </label> -->
