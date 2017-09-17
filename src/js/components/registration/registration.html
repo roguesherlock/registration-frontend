@@ -135,7 +135,7 @@
 			<span ng-show="registerForm.big_buddy.$invalid && registerForm.$submitted" class="help-block">Buddy name is required.</span>
         </div>
         <div class="form-group col-md-12 col-sm-12"  ng-class="{ 'has-error' : registerForm.goal_achievement.$invalid && registerForm.$submitted}" ng-show="$ctrl.user.age > 12 && $ctrl.user.gender==='male'">
-            <label for="goal_achievement">Goal Achievment*</label>
+            <label for="goal_achievement">Goal Achievment* (Percentage marks achieved in last year)</label>
             <input type="text" class="form-control input-sm" id="goal_achievement" name="goal_achievement" placeholder="" ng-model="$ctrl.user.goal_achievement" ng-required="$ctrl.user.age > 12 && $ctrl.user.gender==='male'">
 			<span ng-show="registerForm.goal_achievement.$invalid && registerForm.$submitted" class="help-block">Goal Achievement is required.</span>
         </div>
