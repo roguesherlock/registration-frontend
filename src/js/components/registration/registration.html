@@ -1,6 +1,9 @@
 <div class="container">
 <!-- <span ng-show="saving" class="spinner-class">
 </span> -->
+<div class="alert alert-warning">
+  <h4>To get details of all fuzion events <button ng-click="$ctrl.openComponentModal()" class="btn btn-primary">Click Here !!!</button></h4>
+</div>
 <div class="row">
 <div class="panel panel-primary" style="margin:20px;">
 	<div class="panel-heading">
@@ -35,7 +38,7 @@
         </div>
 
 		
-        <div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.date_of_birth.$invalid && registerForm.$submitted}">
+        <!-- <div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.date_of_birth.$invalid && registerForm.$submitted}">
 			<label for="date_of_birth">Date of Birth*</label>
 			<p class="input-group">
 			  <input type="text" id="date_of_birth" ng-click="$ctrl.open1()" name="date_of_birth" class="form-control" ng-change="$ctrl.getEventAndRoleDetails()" uib-datepicker-popup="{{$ctrl.format}}" ng-model="$ctrl.user.date_of_birth" is-open="$ctrl.popup1.opened" datepicker-options="$ctrl.dateOptions" ng-required="true" close-text="Close" alt-input-formats="$ctrl.altInputFormats" ng-required="true"/> 
@@ -48,7 +51,24 @@
 				<button type="button" class="btn btn-default" ng-click="$ctrl.open1()"><i class="glyphicon glyphicon-calendar"></i></button>
 			  </span> -->
 			   
-			<span ng-show="registerForm.date_of_birth.$invalid && registerForm.$submitted" class="help-block">Date of birth is required.</span>
+			<!-- <span ng-show="registerForm.date_of_birth.$invalid && registerForm.$submitted" class="help-block">Date of birth is required.</span>
+		</div> -->
+
+		<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : (registerForm.selectDate.$invalid || registerForm.selectMonth.$invalid || registerForm.selectYear.$invalid) && registerForm.$submitted}">
+			<label for="date_of_birth">Date of Birth*</label>
+			<div class="form-inline">
+			<input type="number" min="1" max="31" id="selectDate" placeholder="19" name="selectDate" ng-model="$ctrl.day" ng-required="true" ng-minlength="1" ng-maxlength="2" class="form-control" ng-change="$ctrl.getEventAndRoleDetails()"/>
+			<select id="selectMonth" name="selectMonth" ng-required="true" ng-model="$ctrl.month" class="form-control" ng-change="$ctrl.getEventAndRoleDetails()">
+				<option ng-repeat="tempMonth in $ctrl.months" value="{{tempMonth}}">{{tempMonth}}</option>
+			</select>
+			<input type="number" min="1960" max="2016" id="selectYear" name="selectYear" placeholder="2008" ng-required="true" ng-minlength="4" ng-maxlength="4" ng-model="$ctrl.year" class="form-control" ng-change="$ctrl.getEventAndRoleDetails()"/>
+			<!-- <input type="text" id="date_of_birth" class="form-control" ng-change="$ctrl.getEventAndRoleDetails()" ng-model="$ctrl.user.date_of_birth" ng-required="true"//>
+				<span class="input-group-btn">
+				<button type="button" class="btn btn-default" ng-click="$ctrl.open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+			  </span> -->
+			   
+			<span ng-show="(registerForm.selectDate.$invalid || registerForm.selectMonth.$invalid || registerForm.selectYear.$invalid) && registerForm.$submitted" class="help-block">Date of birth is not valid.</span>
+			</div>
 		</div>
 		
 	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.mobile.$invalid && registerForm.$submitted}">

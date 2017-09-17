@@ -7,6 +7,7 @@ class RegistrationCtrl {
             vm.centers = vm.baseCtrl.centers;
             vm.events = vm.baseCtrl.events;
             vm.centerScopes = vm.baseCtrl.centerScopes;
+            vm.months = moment().localeData().months();
             vm.other_center = _.find(vm.centers, {
                 name: 'Other'
             }).id;
@@ -98,6 +99,11 @@ class RegistrationCtrl {
                 delete e.selected;
                 delete e.require_accomodation;
             });
+            if(moment(`${vm.day}-${vm.month}-${vm.year}`, "DD-MMMM-YYYY").isValid()) {
+                vm.user.date_of_birth = moment(`${vm.day}-${vm.month}-${vm.year}`, "DD-MMMM-YYYY").toDate();
+            } else {
+                vm.user.date_of_birth = null;
+            }
             if (!_.isNil(vm.user.date_of_birth)) {
                 let age = vm.calculateAge(vm.user.date_of_birth, new Date());
                 console.log("0", vm.centerScopes);
@@ -184,6 +190,18 @@ class RegistrationCtrl {
             }
 
         }
+
+        vm.openComponentModal = function () {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                component: 'eventDetails',
+                resolve: {
+                    events: function () {
+                        return vm.events;
+                    }
+                }
+            });
+        };
     }
 
 
