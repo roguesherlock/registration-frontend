@@ -95,6 +95,8 @@ class RegistrationCtrl {
             vm.validCenters = [];
             vm.validEvents = [];
             vm.user.events = [];
+            delete vm.home_center;
+            delete vm.user.center;
             _.each(vm.events, (e) => {
                 delete e.selected;
                 delete e.require_accomodation;
