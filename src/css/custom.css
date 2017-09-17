@@ -24,3 +24,12 @@
 	overflow-y: auto;
 }
 .my-css-class { background-color: #b9b4b4 !important; }
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
