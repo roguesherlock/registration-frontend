@@ -8,6 +8,9 @@
 				<h5>Step 1 of your registration is complete.<br/>
 				Your registration number is {{savedData.registration_no}}.<br/>
 				Please contact local Ymht center coordinator for further details.<br/></h5>
+				<h5 ng-if="savedData.participant.gender === 'male' && $ctrl.getAge(savedData.participant.date_of_birth) > 12 "> Step 2: This time we invite you to select Your <b>Food...</b>
+					Fill out the form... <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCsbVnUwJ_p4YcdRcwu0qY2h43nQM7TGK0UuwLzxere-yDcQ/viewform?c=0&w=1" class="btn btn-info" target="_blank">Click Here</a> 
+				</h5>
 				<table class="table">
 					<tbody>
 						<tr><td>Event Details:</td></tr>
