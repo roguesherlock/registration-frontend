@@ -70,6 +70,10 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
                 events: fetchEvents,
                 centerScopes: fetchCenterScopes
             }
+        })
+        .state('baseLogin.dashboard', {
+            url: '/dashboard',
+            template: '<dash-board></dash-board>'
         });
 
     $urlRouterProvider.otherwise('/login');

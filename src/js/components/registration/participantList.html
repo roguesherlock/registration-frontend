@@ -10,6 +10,21 @@
     </div>
   </div>
 </nav>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
+      <div class="nav navbar-form navbar-right">
+        <button type="button" class="btn btn-primary" ng-if="$ctrl.user_id === 91" ng-click="$ctrl.openVisualization()">Analyze</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('')">Show All</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('participant')">Participants</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('helper')">Helpers</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('coordinator')">Coordinators</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.export('all')">Export All</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.export('visible')">Export Visible</button>
+      </div>
+    </div>
+  </div>
+</nav>
 <div class="row-fluid" ng-repeat="grid in $ctrl.grids">
   <div class="panel panel-primary">
     <div class="panel-heading">
