@@ -13,7 +13,7 @@ servicesModule.service('MasterService', MasterService)
     .service('RegisterService', RegisterService)
     .service('User', UserService)
     .service('JWT', JWTService)
-    .service('ParticipantService', ParticipantService);
+    .service('ParticipantService', ParticipantService)
 
 
 export default servicesModule;

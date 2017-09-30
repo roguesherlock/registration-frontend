@@ -5,7 +5,7 @@ class ParticipantCtrl {
         var vm = this;
 
         vm.$onInit = function() {
-            console.log(vm.baseCtrl.auth);
+            vm.user_id = User.current.id;
             vm.init();
             vm.yesNoOptions = [{
                     id: true,
@@ -71,6 +71,10 @@ class ParticipantCtrl {
             return tempOption ? tempOption.value : option;
         }
 
+        vm.formatDate = function(date) {
+            return moment(date).format('Do MMM YYYY');
+        }
+
         vm.custom_cols = [{
                 name: 'gender',
                 func: 'vm.formatGender'
@@ -88,6 +92,10 @@ class ParticipantCtrl {
                 func: 'vm.formatOptions'
             }
         ];
+
+        vm.filter = function(filterOption) {
+            vm.gridApi.grid.columns[1].filters[0].term = filterOption;
+        }
 
         vm.initGrid = function(k, v) {
             let event = _.find(vm.events, {
@@ -115,6 +123,8 @@ class ParticipantCtrl {
                         return vm.formatCenter(value);
                     } else if (col.name === 'accommodation' || col.name === 'payment_status') {
                         return vm.formatOptions(value);
+                    } else if (col.name === 'registered_on') {
+                        return vm.formatDate(value)
                     } else {
                         return value;
                     }
@@ -127,6 +137,11 @@ class ParticipantCtrl {
                         enableSorting: false,
                         cellTemplate: 'components/registration/edit-button.html',
                         width: 60
+                    },
+                    {
+                        headerName: 'role',
+                        field: 'role',
+                        cellTemplate: `<div>{{COL_FIELD}}</div>`
                     },
                     {
                         name: 'registration_no',
@@ -216,6 +231,11 @@ class ParticipantCtrl {
 						</div>`
                     },
                     {
+                        name: 'registered_on',
+                        field: 'created_on',
+                        cellTemplate: `<div>{{grid.appScope.$ctrl.formatDate(COL_FIELD)}}</div>`
+                    },
+                    {
                         name: 'amount_paid',
                         field: 'amount_paid',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
@@ -247,6 +267,9 @@ class ParticipantCtrl {
 						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     }
                 ],
+                onRegisterApi: function(gridApi) {
+                    vm.gridApi = gridApi;
+                }
                 //data: v
             }
             $timeout(function() {
@@ -254,6 +277,11 @@ class ParticipantCtrl {
             }, 100);
             //grid.data = v;
             vm.grids.push([event, eventCenter, grid]);
+        }
+
+        vm.export = function(type) {
+            var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
+            vm.gridApi.exporter.csvExport( type, type, myElement );
         }
 
 
@@ -301,6 +329,25 @@ class ParticipantCtrl {
             }).catch((error) => {
                 vm.baseCtrl.saving = false;
                 toastr.error('An error occurred while saving.', '');
+            });
+        };
+
+        vm.openVisualization = function () {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                size: 'lg',
+                component: 'dashBoard',
+                resolve: {
+                    events: function () {
+                        return vm.events;
+                    },
+                    data: function() {
+                        return vm.grids[0][2].data;
+                    },
+                    centers: function() {
+                        return vm.centers;
+                    }
+                }
             });
         };
 

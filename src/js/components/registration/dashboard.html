@@ -1,0 +1,27 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Fuzion Event Analysis</h3>
+    </div>
+    <!-- <button class="btn btn-info" type="button" ng-click="$ctrl.category = 'centerWise'">Center Distribution</button> -->
+    <button class="btn btn-info" type="button" ng-click="$ctrl.category = 'ageWise'">Age Distribution</button>
+    <button class="btn btn-info" type="button" ng-click="$ctrl.category = 'centerCount'">Center Count</button>
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div class="col-md-12 col-sm-12" ng-if="$ctrl.category === 'centerWise'">
+                Center wise Distribution
+                <div google-chart chart="myChartObject"></div>
+            </div>
+            <div class="col-md-12 col-sm-12" ng-if="$ctrl.category === 'ageWise'">
+                Age wise Distribution
+                <div google-chart chart="myAgeChartObject"></div>
+            </div>
+            <div class="col-md-12 col-sm-12" ng-if="$ctrl.category === 'centerCount'">
+                Center Count
+                <div google-chart chart="myCenterChartObject"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-info" type="button" ng-click="$ctrl.ok()">OK</button>
+    </div>
+</div>

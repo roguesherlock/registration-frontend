@@ -8,7 +8,7 @@ import participantList from './registration/participant.component';
 import thankYou from './registration/thanks.component';
 import loginForm from './auth/auth.component';
 import baseLayout from './registration/base.component';
-//import dashBoard from './registration/dashboard.component';
+import dashBoard from './registration/dashboard.component';
 import eventDetails from './registration/edit-modal.component';
 
 componentsModule.component('registrationForm', registrationForm)
@@ -16,7 +16,7 @@ componentsModule.component('registrationForm', registrationForm)
     .component('thankYou', thankYou)
     .component('loginForm', loginForm)
     .component('baseLayout', baseLayout)
-    //.component('dashBoard', dashBoard)
+    .component('dashBoard', dashBoard)
     .component('eventDetails', eventDetails);
 
 export default componentsModule;

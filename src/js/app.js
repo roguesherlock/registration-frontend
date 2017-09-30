@@ -9,8 +9,7 @@ import 'angular-ui-bootstrap';
 //import 'angular-xeditable';
 import 'angular-ui-grid';
 import 'ui-grid-auto-fit-columns';
-//import 'chart.js'; 
-//import 'angular-chart.js';
+import 'angular-google-chart';
 import _ from 'lodash';
 import 'angular-toastr';
 window._ = _;
@@ -41,7 +40,8 @@ const requires = [
     'ui.grid.autoFitColumns',
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
-    //'chart.js',
+    'ui.grid.grouping',
+    'googlechart',
     //'agGrid',
     'templates',
     //'app.layout',
