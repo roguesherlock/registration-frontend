@@ -6,25 +6,25 @@ class ParticipantCtrl {
 
         vm.$onInit = function() {
             vm.user_id = User.current.id;
-            vm.init();
             vm.yesNoOptions = [{
                     id: true,
-                    value: 'Yes'
+                    name: 'Yes'
                 },
                 {
                     id: false,
-                    value: 'No'
+                    name: 'No'
                 }
             ];
             vm.genderOptions = [{
                     id: 'male',
-                    value: 'Boy'
+                    name: 'Boy'
                 },
                 {
                     id: 'female',
-                    value: 'Girl'
+                    name: 'Girl'
                 },
             ];
+            vm.init();
         }
 
         vm.init = function() {
@@ -94,7 +94,10 @@ class ParticipantCtrl {
         ];
 
         vm.filter = function(filterOption) {
-            vm.gridApi.grid.columns[1].filters[0].term = filterOption;
+            vm.roleFilter = filterOption;
+            _.forEach(vm.grids, (grid) => {
+                grid[2].api.onFilterChanged();
+            });
         }
 
         vm.initGrid = function(k, v) {
@@ -105,77 +108,104 @@ class ParticipantCtrl {
                 id: _.toInteger(v[0].event_center)
             });
             let grid = {
-                paginationPageSizes: [25, 50, 100, 200, 500],
+                //paginationPageSizes: [25, 50, 100, 200, 500],
                 paginationPageSize: 50,
+                pagination: true,
                 enableSorting: true,
-                enableFiltering: true,
-                exporterMenuPdf: false,
-                enableGridMenu: true,
-                rowHeight: 40,
-                fastWatch: true,
-                exporterFieldCallback: (grid, row, col, value) => {
-                    if(col.name === 'Actions') {
-                        return row.entity.registration_status === 0 ? 'Registered' : 'Cancelled';
-                    }
-                    if (col.name === 'gender') {
-                        return vm.formatGender(value);
-                    } else if (col.name === 'home_center') {
-                        return vm.formatCenter(value);
-                    } else if (col.name === 'accommodation' || col.name === 'payment_status') {
-                        return vm.formatOptions(value);
-                    } else if (col.name === 'registered_on') {
-                        return vm.formatDate(value)
-                    } else {
-                        return value;
+                floatingFilter: true,
+                editType: 'fullRow',
+                isExternalFilterPresent: () => {return vm.roleFilter != ''},
+                doesExternalFilterPass: (node) => {
+                    switch(vm.roleFilter) {
+                        case 'participant': return node.data.role == 'participant';
+                        case 'helper': return node.data.role == 'helper';
+                        case 'coordinator': return node.data.role == 'coordinator';
+                        default: return true;
                     }
                 },
-                rowTemplate: `<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ui-grid-cell ng-class="{'my-css-class': grid.appScope.$ctrl.rowFormatter(row)}" ></div>`,
+                // exporterMenuPdf: false,
+                // enableGridMenu: true,
+                // rowHeight: 40,
+                // fastWatch: true,
+                // exporterFieldCallback: (grid, row, col, value) => {
+                //     if(col.name === 'Actions') {
+                //         return row.entity.registration_status === 0 ? 'Registered' : 'Cancelled';
+                //     }
+                //     if (col.name === 'gender') {
+                //         return vm.formatGender(value);
+                //     } else if (col.name === 'home_center') {
+                //         return vm.formatCenter(value);
+                //     } else if (col.name === 'accommodation' || col.name === 'payment_status') {
+                //         return vm.formatOptions(value);
+                //     } else if (col.name === 'registered_on') {
+                //         return vm.formatDate(value)
+                //     } else {
+                //         return value;
+                //     }
+                // },
+                // rowTemplate: `<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ui-grid-cell ng-class="{'my-css-class': grid.appScope.$ctrl.rowFormatter(row)}" ></div>`,
                 columnDefs: [{
-                        name: 'Actions',
-                        field: 'edit',
-                        enableFiltering: false,
-                        enableSorting: false,
-                        cellTemplate: 'components/registration/edit-button.html',
+                        // name: 'Actions',
+                        // field: 'edit',
+                        // enableFiltering: false,
+                        // enableSorting: false,
+                        // cellTemplate: 'components/registration/edit-button.html',
+                        cellRenderer: crudRecord,
                         width: 60
                     },
                     {
                         headerName: 'role',
                         field: 'role',
-                        cellTemplate: `<div>{{COL_FIELD}}</div>`
+                        //editable: true,
+                        cellEditor: 'agSelectCellEditor'
+                        // cellTemplate: `<div>{{COL_FIELD}}</div>`
                     },
                     {
                         name: 'registration_no',
-                        field: 'registration_no',
-                        cellTemplate: `<div>{{COL_FIELD}}</div>`
+                        field: 'registration_no'
+                        // cellTemplate: `<div>{{COL_FIELD}}</div>`
                     },
                     {
                         name: 'firstName',
                         field: 'participant.first_name',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"/></div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"/></div>`
                     },
                     {
                         name: 'lastName',
                         field: 'participant.last_name',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"/></div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"/></div>`
                     },
                     {
                         name: 'birthDate',
                         field: 'participant.date_of_birth',
-                        cellTemplate: `<div>{{COL_FIELD}}</div>`,
+                        // cellTemplate: `<div>{{COL_FIELD}}</div>`,
                         //cellFilter: `date:'dd/MM/yyyy'`
                     },
                     {
                         name: 'gender',
                         field: 'participant.gender',
-                        cellTemplate: `<div>{{grid.appScope.$ctrl.formatGender(COL_FIELD)}}</div>`
+                        cellEditorParams: {
+                            values: extractValues(vm.genderOptions)
+                        },
+                        valueFormatter: function (params) {
+                            return lookupValue(vm.genderOptions, params.value);
+                        },
+                        valueParser: function (params) {
+                            return lookupKey(vm.genderOptions, params.newValue);
+                        },
+                        cellEditor: 'agSelectCellEditor'
+                        // cellTemplate: `<div>{{grid.appScope.$ctrl.formatGender(COL_FIELD)}}</div>`
                     },
                     {
                         name: 'email',
                         field: 'participant.email',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="email" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="email" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     /*{
                         name: 'event_center',
@@ -188,83 +218,125 @@ class ParticipantCtrl {
                     {
                         name: 'home_center',
                         field: 'home_center',
-                        cellTemplate: `<div  ng-disabled="true">
-						<select  ng-disabled="true" class="form-control" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
-                        </div>`
+                        cellEditorParams: {
+                            values: extractValues(vm.centers)
+                        },
+                        valueFormatter: function (params) {
+                            return lookupValue(vm.centers, params.value);
+                        },
+                        valueParser: function (params) {
+                            return lookupKey(vm.centers, params.newValue);
+                        },
+                        cellEditor: 'agSelectCellEditor'
+                        // cellTemplate: `<div  ng-disabled="true">
+						// <select  ng-disabled="true" class="form-control" data-ng-options="t.id as t.name for t in grid.appScope.$ctrl.centers" data-ng-model="MODEL_COL_FIELD"></select>
+                        // </div>`
                     },
                     {
                         name: 'mobile',
                         field: 'participant.mobile',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'fatherName',
                         field: 'participant.father_name',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'fatherMobile',
                         field: 'participant.father_mobile',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'motherName',
                         field: 'participant.mother_name',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'motherMobile',
                         field: 'participant.mother_mobile',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'accommodation',
                         field: 'accommodation',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
-                        <div ng-if="row.entity.editrow">
-						<select class="form-control" ng-disabled="!row.entity.editrow" class="form-control" data-ng-options="t.id as t.value for t in grid.appScope.$ctrl.yesNoOptions" data-ng-model="MODEL_COL_FIELD"></select>
-						</div>`
+                        editable: true,
+                        cellEditorParams: {
+                            values: extractValues(vm.yesNoOptions)
+                        },
+                        valueFormatter: function (params) {
+                            return lookupValue(vm.yesNoOptions, params.value);
+                        },
+                        valueParser: function (params) {
+                            return lookupKey(vm.yesNoOptions, params.newValue);
+                        },
+                        cellEditor: 'agSelectCellEditor'
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
+                        // <div ng-if="row.entity.editrow">
+						// <select class="form-control" ng-disabled="!row.entity.editrow" class="form-control" data-ng-options="t.id as t.value for t in grid.appScope.$ctrl.yesNoOptions" data-ng-model="MODEL_COL_FIELD"></select>
+						// </div>`
                     },
                     {
                         name: 'registered_on',
                         field: 'created_on',
-                        cellTemplate: `<div>{{grid.appScope.$ctrl.formatDate(COL_FIELD)}}</div>`
+                        filter: 'date'
+                        // cellTemplate: `<div>{{grid.appScope.$ctrl.formatDate(COL_FIELD)}}</div>`
                     },
                     {
                         name: 'amount_paid',
                         field: 'amount_paid',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'cashier',
                         field: 'cashier',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
                     {
                         name: 'payment_status',
                         field: 'payment_status',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
-                        <div ng-if="row.entity.editrow">
-						<select class="form-control" ng-disabled="!row.entity.editrow" class="form-control" data-ng-options="t.id as t.value for t in grid.appScope.$ctrl.yesNoOptions" data-ng-model="MODEL_COL_FIELD"></select>
-						</div>`
+                        editable: true,
+                        cellEditorParams: {
+                            values: extractValues(vm.yesNoOptions)
+                        },
+                        valueFormatter: function (params) {
+                            return lookupValue(vm.yesNoOptions, params.value);
+                        },
+                        valueParser: function (params) {
+                            return lookupKey(vm.yesNoOptions, params.newValue);
+                        },
+                        cellEditor: 'agSelectCellEditor'
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow"><i class="fa fa-check btn btn-xs btn-success" ng-if="COL_FIELD" disabled></i><i class="fa fa-close btn btn-xs btn-danger" ng-if="!COL_FIELD" disabled></i></div>
+                        // <div ng-if="row.entity.editrow">
+						// <select class="form-control" ng-disabled="!row.entity.editrow" class="form-control" data-ng-options="t.id as t.value for t in grid.appScope.$ctrl.yesNoOptions" data-ng-model="MODEL_COL_FIELD"></select>
+						// </div>`
                     },
                     {
                         headerName: 'big_buddy',
                         field: 'big_buddy',
-                        cellTemplate: `<div>{{COL_FIELD}}</div>`
+                        editable: true
+                        // cellTemplate: `<div>{{COL_FIELD}}</div>`
                     },
                     {
                         headerName: 'goal_achievement',
                         field: 'goal_achievement',
-                        cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
-						<div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
+                        editable: true
+                        // cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
+						// <div ng-if="row.entity.editrow"><input type="text" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     }
                 ],
                 onRegisterApi: function(gridApi) {
@@ -273,23 +345,63 @@ class ParticipantCtrl {
                 //data: v
             }
             $timeout(function() {
-                grid.data = _.orderBy(v, 'registration_status');
+                 grid.angularCompileRows = true;
+                 //grid.pagination = true;
+                //grid.rowData = _.orderBy(v, 'registration_status');
+                grid.api.setRowData(_.orderBy(v, 'registration_status'));
             }, 100);
             //grid.data = v;
             vm.grids.push([event, eventCenter, grid]);
         }
 
         vm.export = function(type) {
-            var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
-            vm.gridApi.exporter.csvExport( type, type, myElement );
+            _.forEach(vm.grids, (grid) => {
+                grid[2].api.exportDataAsCsv({});
+            })
+            //var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
+            //vm.gridApi.exporter.csvExport( type, type, myElement );
         }
 
+        function crudRecord(params) {
+            console.log(params)
+            var html = `<button type="button"
+                            class="btn btn-xs btn-primary"
+                            ng-click="$ctrl.edit(` + params.rowIndex + `)">
+                            <i class="fa fa-edit"></i>
+                        </button>`;
+            return html;
+        }
 
-        vm.edit = function(uiGridComp) {
+        function extractValues(mappings) {
+            return _.flatMap(mappings, (m) => m.name);
+        }
+
+        function lookupValue(mappings, key) {
+            let tempValue = _.find(mappings, {
+                id: key
+            });
+            return tempValue ? tempValue.name : key;
+        }
+
+        function lookupKey(mappings, name) {
+            for (var key in mappings) {
+                if (mappings.hasOwnProperty(key)) {
+                    if (name === mappings[key].name) {
+                        return key;
+                    }
+                }
+            }
+        }
+
+        vm.edit = function(rowIndex) {
+            vm.grids[0][2].api.startEditingCell({
+                rowIndex: rowIndex,
+                colKey: 'participant.first_name'
+            });
             //Get the index of selected row from row object
-            var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
-            //Use that to set the editrow attrbute value for seleted rows
-            uiGridComp.grid.options.data[index].editrow = !uiGridComp.grid.options.data[index].editrow;
+            // var index = uiGridComp.grid.options.data.indexOf(uiGridComp.entity);
+            // //Use that to set the editrow attrbute value for seleted rows
+            // uiGridComp.grid.options.data[index].editrow = !uiGridComp.grid.options.data[index].editrow;
         };
 
         vm.activate = function(uiGridComp) {

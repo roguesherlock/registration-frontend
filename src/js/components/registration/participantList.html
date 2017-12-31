@@ -15,6 +15,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
       <div class="nav navbar-form navbar-right">
         <button type="button" class="btn btn-primary" ng-if="$ctrl.user_id === 91" ng-click="$ctrl.openVisualization()">Analyze</button>
+        <button type="button" class="btn btn-success" ng-click="$ctrl.saveRow('')">Save</button>
         <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('')">Show All</button>
         <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('participant')">Participants</button>
         <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('helper')">Helpers</button>
@@ -31,11 +32,16 @@
       <h3 class="panel-title">Participant List for {{grid[0].name}} - {{grid[1].name}}</h3>
     </div>
     <div class="panel-body">
-      <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns  ui-grid-pagination
-     ui-grid-resize-columns></div>
+      <!-- <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns  ui-grid-pagination
+     ui-grid-resize-columns></div> -->
+      <div ag-grid="grid[2]" style="height: 600px;" class="ag-theme-material"></div> 
     </div>
   </div>  
 </div>
+    
+
+<!-- <div ag-grid="$ctrl.grids[0][2]" style="height: 100%;" class="ag-theme-fresh"></div> -->
+
 <!-- <uib-tabset active="active">
     <uib-tab index="$index + 1" ng-repeat="grid in $ctrl.grids" heading="{{grid[0].name}} - {{grid[1].name}}">
     <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns  ui-grid-pagination
