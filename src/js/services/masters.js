@@ -18,7 +18,10 @@ export default class Masters {
 
     getEvents() {
         return this._$http.get(`${this._AppConstants.api}/events/`, {
-                cache: true
+                cache: true,
+                params: {
+                    active: true
+                }
             })
             .then((res) => res.data);
     }

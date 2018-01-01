@@ -27,7 +27,7 @@ class DashBoardCtrl {
                 "rows": rows
             };
             $scope.myCenterChartObject = {};
-            $scope.myCenterChartObject.type = "ScatterChart";
+            $scope.myCenterChartObject.type = "BarChart";
             $scope.myCenterChartObject.data = {
                 "cols": [
                     {id: "t", label: "Center", type: "string"},

@@ -9,8 +9,12 @@ export default class ParticipantService {
     }
 
 
-    get_list() {
-        return this._$http.get(`${this._AppConstants.api}/events/event-participants/`)
+    get_list(event_id, user_center) {
+        return this._$http.get(`${this._AppConstants.api}/events/event-participants/`, {
+            params: {
+                event: event_id
+            }
+        })
             .then((res) => res.data);
     }
 

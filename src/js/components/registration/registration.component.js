@@ -34,6 +34,7 @@ class RegistrationCtrl {
                 vm.user = {};
             }
             vm.user.center = model.id;
+            vm.getEventAndRoleDetails();
         }
 
         vm.register = function() {
@@ -95,8 +96,8 @@ class RegistrationCtrl {
             vm.validCenters = [];
             vm.validEvents = [];
             vm.user.events = [];
-            delete vm.home_center;
-            delete vm.user.center;
+            //delete vm.home_center;
+            //delete vm.user.center;
             _.each(vm.events, (e) => {
                 delete e.selected;
                 delete e.require_accomodation;
@@ -108,11 +109,11 @@ class RegistrationCtrl {
             }
             if (!_.isNil(vm.user.date_of_birth)) {
                 let age = vm.calculateAge(vm.user.date_of_birth, new Date());
-                console.log("0", vm.centerScopes);
+                //console.log("0", vm.centerScopes);
                 let validCenterScopes = _.filter(vm.centerScopes, (cs) => {
                     return age >= _.parseInt(cs[0].min_age) && age <= _.parseInt(cs[0].max_age) && (vm.user.gender === cs[0].gender || !cs[0].gender);
                 });
-                console.log("1", validCenterScopes);
+                //console.log("1", validCenterScopes);
                 if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
                     if(vm.user.gender === 'male') {
                         validCenterScopes = _.filter(vm.centerScopes, (cen) => {
@@ -128,16 +129,17 @@ class RegistrationCtrl {
                     vm.validCenters = vm.centers;
                 } else {
                     let validCentersIds = _.flatten(_.map(validCenterScopes, (cs) => _.map(cs[1], (h) => h.center)));
-                    console.log("2", validCentersIds);
+                    //console.log("2", validCentersIds);
                     vm.validCenters = _.filter(vm.centers, (c) => _.includes(validCentersIds, c.id));
                 }
                 vm.validCenters = _.orderBy(vm.validCenters, 'name');
-                console.log("3", validCenterScopes)
-                console.log("4", vm.validCenters);
+                //console.log("3", validCenterScopes)
+                //console.log("4", vm.validCenters);
                 vm.user.age = age;
                 vm.roleEnabled = (age > 21);
                 vm.validEvents = _.filter(vm.events, (e) => {
-                    return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender);
+                    return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender) && 
+                    (vm.home_center.id === e.center || e.center === 1);
                 });
                 if (_.isNil(vm.validEvents) || vm.validEvents.length === 0) {
                     vm.validEvents = _.filter(vm.events, (e) => {
