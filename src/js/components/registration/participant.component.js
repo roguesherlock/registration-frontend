@@ -5,7 +5,7 @@ class ParticipantCtrl {
         var vm = this;
 
         vm.$onInit = function() {
-            // vm.user_id = User.current.id;
+            vm.user_id = User.current.id;
             vm.init();
             vm.yesNoOptions = [{
                     id: true,

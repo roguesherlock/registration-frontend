@@ -1,9 +1,10 @@
 class DashBoardCtrl {
 
-    constructor($scope, DataStoreService) {
+    constructor($scope, DataStoreService, User) {
         'ngInject';
         var vm = this;
         vm.$onInit = function() {
+            vm.user_id = User.current.id;
             $scope.myChartObject = {};
             $scope.myChartObject.type = "PieChart";
             let activeRegistrations = _.filter(DataStoreService.get("participants"), (p) => {
@@ -87,6 +88,10 @@ class DashBoardCtrl {
             }
             return age;
         }
+
+        vm.logout = function() {
+            User.logout();
+        }
     }
 
 }
@@ -97,5 +102,8 @@ export default {
         resolve: '<',
         close: '&',
         dismiss: '&'
+    },
+    require: {
+        baseCtrl: '^baseLayout'
     }
 }

@@ -1,18 +1,3 @@
 <span ng-show="$ctrl.saving" class="spinner-class">
 </span>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-      <ul class="nav navbar-nav">
-        <li><a ui-sref="baseLogin.list">Home</a></li>
-      </ul>
-      <ul class="nav navbar-nav" ng-if="$ctrl.user_id === 91">
-        <li><a ui-sref="baseLogin.dashboard">Dashboard</a></li>
-      </ul>  
-      <div class="nav navbar-form navbar-right">
-        <button type="button" class="btn btn-default" ng-click="$ctrl.logout()">Sign out</button>
-      </div>
-    </div>
-  </div>
-</nav>
 <ui-view/>
