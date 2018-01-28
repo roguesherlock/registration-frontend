@@ -1,11 +1,19 @@
 <div>
-    <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">One Day Workshop Analysis</h3>
-    </div>
-    <!-- <button class="btn btn-info" type="button" ng-click="$ctrl.category = 'centerWise'">Center Distribution</button> -->
-    <button class="btn btn-info" type="button" ng-click="$ctrl.category = 'ageWise'">Age Distribution</button>
-    <button class="btn btn-info" type="button" ng-click="$ctrl.category = 'centerCount'">Center Count</button>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
+            <div class="nav navbar-form navbar-right">
+                <button class="btn btn-primary" type="button" ng-click="$ctrl.category = 'ageWise'">Age Distribution</button>
+                <button class="btn btn-primary" type="button" ng-click="$ctrl.category = 'centerCount'">Center Count</button>
+            </div>
+            </div>
+        </div>
+    </nav>
+    
     <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Data Analysis</h3>
+        </div>
         <div class="panel-body">
             <div class="col-md-12 col-sm-12" ng-if="$ctrl.category === 'centerWise'">
                 Center wise Distribution
@@ -20,8 +28,5 @@
                 <div google-chart chart="myCenterChartObject"></div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-info" type="button" ng-click="$ctrl.ok()">OK</button>
     </div>
 </div>

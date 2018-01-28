@@ -4,6 +4,9 @@ class RegistrationCtrl {
         var vm = this;
         vm._ = _;
         vm.$onInit = function() {
+            vm.user = {
+                gender: 'male'
+            };
             vm.centers = vm.baseCtrl.centers;
             vm.events = vm.baseCtrl.events;
             vm.centerScopes = vm.baseCtrl.centerScopes;
@@ -50,6 +53,8 @@ class RegistrationCtrl {
                 let promises = [];
                 vm.baseCtrl.saving = true;
                 _.each(vm.user.events, (tempEvent) => {
+                    vm.user.father_name = "NA" || vm.user.father_name;
+                    vm.user.father_mobile = "0123456789" || vm.user.father_mobile;
                     let data = {
                         participant: angular.copy(vm.user),
                         event: tempEvent.id,
@@ -139,7 +144,7 @@ class RegistrationCtrl {
                 vm.roleEnabled = (age > 21);
                 vm.validEvents = _.filter(vm.events, (e) => {
                     return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender) && 
-                    (vm.home_center.id === e.center || e.center === 1);
+                    vm.home_center && (vm.home_center.id === e.center || e.center === 1);
                 });
                 if (_.isNil(vm.validEvents) || vm.validEvents.length === 0) {
                     vm.validEvents = _.filter(vm.events, (e) => {
@@ -152,6 +157,9 @@ class RegistrationCtrl {
                         return false;
                     });
                 }
+                vm.validEvents = _.filter(vm.validEvents, (e) => {
+                    return vm.home_center && (vm.home_center.id === e.center || e.center === 1);
+                });
                 if (vm.validEvents.length === 1) {
                     vm.addEvent(vm.validEvents[0]);
                     vm.validEvents[0].selected = true;

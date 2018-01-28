@@ -14,8 +14,7 @@ export default class ParticipantService {
             params: {
                 event: event_id
             }
-        })
-            .then((res) => res.data);
+        }).then((res) => res.data);
     }
 
 }

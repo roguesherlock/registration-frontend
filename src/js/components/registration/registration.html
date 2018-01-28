@@ -1,8 +1,9 @@
+
 <div class="container">
 <!-- <span ng-show="saving" class="spinner-class">
 </span> -->
-<div class="alert alert-warning">
-  <h4>To get details of all One Day Workshops <button ng-click="$ctrl.openComponentModal()" class="btn btn-primary">Click Here !!!</button></h4>
+<div class="alert alert-info">
+  <h5 class="text-center text-success">To get details of all One Day Workshops <button ng-click="$ctrl.openComponentModal()" class="btn btn-primary">Click Here !!!</button></h5>
 </div>
 <div class="row">
 <div class="panel panel-primary" style="margin:20px;">
@@ -16,10 +17,10 @@
 	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.gender.$invalid && registerForm.$submitted}">
 	      <label for="gender">Gender*</label>  
 	      <div class="radio-inline" id="gender">
-			<label><input type="radio" name="gender" value="male" ng-model="$ctrl.user.gender" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()">Boys</label>
+			<label><input type="radio" name="gender" value="male" ng-model="$ctrl.user.gender" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()"   />Boys</label>
 		  </div>
 		 <div class="radio-inline" id="gender">
-			<label><input type="radio" name="gender" value="female" ng-model="$ctrl.user.gender" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()">Girls</label>
+			<label ng-if="false"><input type="radio" name="gender" value="female" ng-model="$ctrl.user.gender" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()">Girls</label>
 			<!-- <label ng-model="$ctrl.user.gender" name="gender" class="btn btn-success btn-lg" uib-btn-radio="'male'" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()"><i class="fa fa-male" aria-hidden="true"></i></label>
 			<label class="btn btn-success btn-lg" name="gender" ng-model="$ctrl.user.gender" uib-btn-radio="'female'" ng-required="!$ctrl.user.gender" ng-change="$ctrl.getEventAndRoleDetails()"><i class="fa fa-female" aria-hidden="true"></i></label> -->
 		  </div>
@@ -105,26 +106,26 @@
         </div>
 	
 	
-	<div class="form-group col-md-12 col-sm-12"  ng-class="{ 'has-error' : registerForm.father_name.$invalid && registerForm.$submitted}">
+	<div class="form-group col-md-12 col-sm-12"  ng-class="{ 'has-error' : registerForm.father_name.$invalid && registerForm.$submitted}" ng-if="false">
             <label for="father_name">Father's Name</label> 
             <input type="text" class="form-control input-sm" id="father_name" name="father_name" placeholder="" ng-model="$ctrl.user.father_name" ng-required="true">			
 			<span ng-show="registerForm.father_name.$invalid && registerForm.$submitted" class="help-block">Please enter father's name.</span>
         </div>
 		
-	<div class="form-group col-md-12 col-sm-12" ng-show="$ctrl.user.age < 13">
+	<div class="form-group col-md-12 col-sm-12" ng-show="$ctrl.user.age < 13" ng-if="false">
             <label for="mother_name">Mother's Name</label>
             <input type="text" class="form-control input-sm" id="mother_name" placeholder="" ng-model="$ctrl.user.mother_name">
         </div>
 	
 		
-	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.father_mobile.$invalid && registerForm.$submitted}">
+	<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.father_mobile.$invalid && registerForm.$submitted}" ng-if="false">
             <label for="father_mobile">Father's Mobile</label> 
             <input type="tel" class="form-control input-sm" id="father_mobile" name="father_mobile" placeholder="" ng-model="$ctrl.user.father_mobile" ng-required="true" ng-minlength="10" 
                    ng-maxlength="10">
 			<span ng-show="registerForm.father_mobile.$invalid && registerForm.$submitted" class="help-block">Please enter a valid mobile.</span> 
         </div>
 		
-	<div class="form-group col-md-12 col-sm-12" ng-show="$ctrl.user.age < 13">
+	<div class="form-group col-md-12 col-sm-12" ng-show="$ctrl.user.age < 13" ng-if="false">
             <label for="mother_mobile">Mother's Mobile</label>
             <input type="tel" class="form-control input-sm" id="mother_mobile" placeholder="" ng-model="$ctrl.user.mother_mobile">
         </div>
@@ -143,7 +144,7 @@
 	
 </div>
 
-<div class="form-group col-md-12 col-sm-12" ng-if="$ctrl.roleEnabled">
+<div class="form-group col-md-12 col-sm-12" ng-if="$ctrl.roleEnabled && false">
 			<div class="form-group col-md-12 col-sm-12" ng-class="{ 'has-error' : registerForm.role.$invalid && registerForm.$submitted}">
 			<label for="role">As a</label>
 			 <div ng-repeat="role in $ctrl.roles" class="radio-inline">
@@ -169,14 +170,7 @@
 							<label><input type="radio" name="event{{$index}}_{{event.id}}" value="true" ng-model="event.require_accomodation">Yes</label>
 							<label><input type="radio" name="event{{$index}}_{{event.id}}" value="false" ng-model="event.require_accomodation">No</label>
 						</div>
-						<!-- <select class="col-sm-1" id="sel1" ng-model="event.require_accomodation">
-							<option value="true" selected="selected">Yes</option>
-							<option value="false">No</option>
-						</select> -->
 						</div>
-						<!-- <input class="col-sm-1" type="checkbox" id="{{event.accomodation}}" value="{{event.accomodation}}" name="event_accomodation" ng-click="$ctrl.addAccomodation(event)" ng-if="event.accommodation_provided && event.selected" ng-model="event.require_accomodation"/>
-						<label class="col-sm-3" for="{{event.accomodation}}" ng-if="event.accommodation_provided && event.selected"> Utaro - {{event.name}} </label> -->
-						
 </div>
 					</div>
 					</div>

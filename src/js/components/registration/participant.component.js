@@ -1,11 +1,11 @@
 class ParticipantCtrl {
-    constructor($scope, $filter, $http, $uibModal, $timeout, $q, toastr, RegisterService, User, ParticipantService) {
+    constructor($scope, $filter, $http, $uibModal, $timeout, $q, $state, toastr, RegisterService, User, ParticipantService, DataStoreService) {
         'ngInject';
 
         var vm = this;
 
         vm.$onInit = function() {
-            vm.user_id = User.current.id;
+            // vm.user_id = User.current.id;
             vm.init();
             vm.yesNoOptions = [{
                     id: true,
@@ -52,6 +52,7 @@ class ParticipantCtrl {
                     });
                     $q.all(promises).then((results) => {
                         vm.initGrid(validEvents[0].id, _.flatten(results));
+                        DataStoreService.append('participants', _.flatten(results));
                     });
                 }
             } else {
@@ -70,6 +71,7 @@ class ParticipantCtrl {
                                 return (User.current.center === 1 || participant.event_center === User.current.center ||
                                         participant.home_center === User.current.center)
                             });
+                            DataStoreService.append('participants', validParticipantList);
                             vm.initGrid(valid_event_id, validParticipantList);
                         });
                     });
@@ -276,7 +278,7 @@ class ParticipantCtrl {
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
                         <div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
                     },
-                    {
+                    /*{
                         name: 'fatherName',
                         field: 'participant.father_name',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
@@ -287,7 +289,7 @@ class ParticipantCtrl {
                         field: 'participant.father_mobile',
                         cellTemplate: `<div  ng-if="!row.entity.editrow">{{COL_FIELD}}</div>
                         <div ng-if="row.entity.editrow"><input type="tel" class="form-control" ng-model="MODEL_COL_FIELD"</div>`
-                    },
+                    },*/
                     /*{
                         name: 'motherName',
                         field: 'participant.mother_name',
@@ -403,6 +405,10 @@ class ParticipantCtrl {
                 }
             });
         };
+
+        vm.goToDashBoard = function() {
+            $state.go('baseLogin.dashboard');
+        }
 
         vm.logout = function() {
             User.logout();

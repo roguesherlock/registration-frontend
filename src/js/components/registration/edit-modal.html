@@ -2,15 +2,15 @@
 <div class="modal-header">
     <h3 class="modal-title" id="modal-title">One Day Workshop Details</h3>
 </div>
-<uib-accordion>
-<div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.resolve.events" 
+<uib-accordion class="row">
+<div uib-accordion-group class="panel-success col-md-12" ng-repeat="tempevent in $ctrl.resolve.events | orderBy: 'start_date'" 
     heading="{{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) - {{$ctrl.formatGender(tempevent.gender)}}">
 				<table class="table">
 					<tbody>
 						<tr class="active"><td>Event Dates: {{$ctrl.formatDate(tempevent.start_date)}} - {{$ctrl.formatDate(tempevent.end_date)}}</td></tr>
 						<tr class="active"><td>Registration Fees: {{tempevent.fees}}</td></tr>
-						<tr class="active"><td>Last date of registration: {{$ctrl.formatDate(tempevent.last_date_of_registration)}}</td></tr>
-						<tr class="active"><td>Late Fees: {{tempevent.late_fees}}</td></tr>
+						<!--<tr class="active"><td>Last date of registration: {{$ctrl.formatDate(tempevent.last_date_of_registration)}}</td></tr>
+						<tr class="active"><td>Late Fees: {{tempevent.late_fees}}</td></tr>-->
 						<tr class="active"><td>Venue: {{tempevent.venue.raw}}</td></tr>
 					</tbody>
 				</table>

@@ -1,16 +1,16 @@
 class DashBoardCtrl {
 
-    constructor($scope) {
+    constructor($scope, DataStoreService) {
         'ngInject';
         var vm = this;
         vm.$onInit = function() {
             $scope.myChartObject = {};
             $scope.myChartObject.type = "PieChart";
-            let activeRegistrations = _.filter(vm.resolve.data, (p) => {
+            let activeRegistrations = _.filter(DataStoreService.get("participants"), (p) => {
                 return p.registration_status === 0;
             }); 
             let rows = _.map(_.groupBy(activeRegistrations, 'home_center'), (val, k) => {
-                let center = _.find(vm.resolve.centers, {id: _.parseInt(k)});
+                let center = _.find(DataStoreService.get("centers"), {id: _.parseInt(k)});
                 center = !center ? 'Unknown' : center.name;
                 return {
                         c: [
@@ -22,16 +22,22 @@ class DashBoardCtrl {
             $scope.myChartObject.data = {
                 "cols": [
                     {id: "t", label: "Center", type: "string"},
-                    {id: "s", label: "Participants", type: "number"}
+                    {id: "s", label: "Participants", type: "number"}                    
                 ],
                 "rows": rows
             };
             $scope.myCenterChartObject = {};
-            $scope.myCenterChartObject.type = "BarChart";
+            $scope.myCenterChartObject.type = "Bar";
+            $scope.myCenterChartObject.annotations = {
+                alwaysOutside: true,
+                'column_id': {style: 'line'}
+            };	 
+
             $scope.myCenterChartObject.data = {
                 "cols": [
                     {id: "t", label: "Center", type: "string"},
-                    {id: "s", label: "Participants", type: "number"}
+                    {id: "s", label: "Participants", type: "number"},
+                    { calc: "stringify",sourceColumn: 1, type:'string', role:'annotation'}
                 ],
                 "rows": rows
             };

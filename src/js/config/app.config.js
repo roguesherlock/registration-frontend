@@ -78,12 +78,18 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
 
     $urlRouterProvider.otherwise('/login');
 
-    function fetchCenters(MasterService) {
-        return MasterService.getCenters().then((res) => res);
+    function fetchCenters(MasterService, DataStoreService) {
+        return MasterService.getCenters().then((res) => {
+            DataStoreService.add('centers', res);
+            return res;
+        });
     }
 
-    function fetchEvents(MasterService) {
-        return MasterService.getEvents().then((res) => res);
+    function fetchEvents(MasterService, DataStoreService) {
+        return MasterService.getEvents().then((res) => {
+            DataStoreService.add('events', res);
+            return res;
+        });
     }
 
     function fetchCenterScopes(MasterService) {
