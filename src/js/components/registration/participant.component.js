@@ -28,6 +28,7 @@ class ParticipantCtrl {
         }
 
         vm.init = function() {
+            DataStoreService.clear('participants');
             /**********************************************************************/
             if(User.current.center === 1) {
                 var validEvents = _.filter(vm.events, (event) => {

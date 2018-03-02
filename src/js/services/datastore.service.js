@@ -16,4 +16,8 @@ export default class DataStore {
         let tempData = this.data[key];
         this.data[key] = _.compact(_.concat(tempData, data));
     }
+
+    clear(key) {
+        this.data[key] = [];
+    }
 }

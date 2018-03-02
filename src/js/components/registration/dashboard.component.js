@@ -28,7 +28,7 @@ class DashBoardCtrl {
                 "rows": rows
             };
             $scope.myCenterChartObject = {};
-            $scope.myCenterChartObject.type = "Bar";
+            $scope.myCenterChartObject.type = "ColumnChart";
             $scope.myCenterChartObject.annotations = {
                 alwaysOutside: true,
                 'column_id': {style: 'line'}
