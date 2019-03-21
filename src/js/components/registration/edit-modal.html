@@ -1,22 +1,23 @@
 <div>
-<div class="modal-header">
-    <h5 class="modal-title" id="modal-title">One Day Workshop Details</h5>
+<div class="modal-header" style="background-color: #b3935a">
+    <h5 class="modal-title" id="modal-title">Summer Camp Details</h5>
 </div>
 <uib-accordion class="row">
-<div uib-accordion-group class="panel-success col-md-12" ng-repeat="tempevent in $ctrl.resolve.events | orderBy: 'start_date'" 
+<div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.resolve.events | orderBy: 'start_date'" 
     heading="{{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) - {{$ctrl.formatGender(tempevent.gender)}}">
 				<table class="table">
 					<tbody>
 						<tr class="active"><td>Event Dates: {{$ctrl.formatDate(tempevent.start_date)}} - {{$ctrl.formatDate(tempevent.end_date)}}</td></tr>
 						<tr class="active"><td>Registration Fees: {{tempevent.fees}}</td></tr>
-						<!--<tr class="active"><td>Last date of registration: {{$ctrl.formatDate(tempevent.last_date_of_registration)}}</td></tr>
-						<tr class="active"><td>Late Fees: {{tempevent.late_fees}}</td></tr>-->
+						<tr class="active"><td>Last date of registration: {{$ctrl.formatDate(tempevent.last_date_of_registration)}}</td></tr>
+						<tr class="active"><td>Late Fees: {{tempevent.late_fees}}</td></tr>
 						<tr class="active"><td>Venue: {{tempevent.venue.raw}}</td></tr>
+						<tr class="active"><td>Contact: {{tempevent.remarks}}</td></tr>
 					</tbody>
 				</table>
 </div>
 </uib-accordion>
 <div class="modal-footer">
-    <button class="btn btn-info" type="button" ng-click="$ctrl.ok()">OK</button>
+    <button class="btn btn-success" type="button" ng-click="$ctrl.ok()">OK</button>
 </div>
 </div>

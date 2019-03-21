@@ -2,13 +2,13 @@
 <div class="container">
 <!-- <span ng-show="saving" class="spinner-class">
 </span> -->
-<div class="alert alert-info">
-  <h5 class="text-center" style="color: #ffffff">To get details of all One Day Workshops <button ng-click="$ctrl.openComponentModal()" class="btn btn-primary">Click Here !!!</button></h5>
+<div class="alert alert-warning" style="background-color: #b3935a">
+  <h5 class="text-center" style="color: #ffffff">To get details of all Summer Camps <button ng-click="$ctrl.openComponentModal()" class="btn btn-default">Click Here !!!</button></h5>
 </div>
 <div class="row">
-<div class="panel panel-primary" style="margin:20px;">
+<div class="panel panel-success" style="margin:20px;">
 	<div class="panel-heading">
-        	<h3 class="panel-title">One Day Workshop 2018 Registration Form <i style="float:right;">Fields marked (*) are mandatory.</i></h3>
+        	<h3 class="panel-title">Summer Camp 2019 Registration Form <i style="float:right;">Fields marked (*) are mandatory.</i></h3>
 	</div>
 <div class="panel-body">
     <form name="registerForm" ng-submit="$ctrl.register()" novalidate>
@@ -155,28 +155,28 @@
 			</div> 
         </div>
 <span ng-class="has-error" ng-show="(!$ctrl.validEvents || $ctrl.validEvents.length < 1) && registerForm.$submitted" class="help-block">No events available.</span>
-<div class="col-md-12 col-sm-12 panel panel-primary" ng-if="$ctrl.validEvents.length > 0"> 
-<span ng-show="(!$ctrl.user.events || $ctrl.user.events.length < 1) && registerForm.$submitted" class="help-block">Please select an event.</span>
-<div class="panel-heading">
-        	<h3 class="panel-title">Event Details</h3>
+<div class="col-md-12 col-sm-12 panel panel-success" ng-if="$ctrl.validEvents.length > 0"> 
+	<span ng-show="(!$ctrl.user.events || $ctrl.user.events.length < 1) && registerForm.$submitted" class="help-block">Please select an event.</span>
+	<div class="panel-heading">
+				<h3 class="panel-title">Event Details</h3>
+		</div>
+	<div class="panel-body">
+		<div class="form-group col-md-12 col-sm-12" ng-repeat="event in $ctrl.validEvents">
+			<input class="col-md-1" type="checkbox" id="{{event.name}}" value="{{event.name}}" name="event_name" ng-click="$ctrl.addEvent(event)" ng-model="event.selected"/>
+			<label class="col-md-3" for="{{event.name}}"> {{event.name}} </label>
+			<div class="form-group" ng-if="event.accommodation_provided && event.selected">
+				<label class="col-md-1" for="{{event.accomodation}}"> Utaro: </label>
+				<!--<div class="radio-inline" id="sel1">-->
+					<label><input type="radio" name="event{{$index}}_{{event.id}}" value="true" ng-model="event.require_accomodation">Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<label><input type="radio" name="event{{$index}}_{{event.id}}" value="false" ng-model="event.require_accomodation">No</label>
+				<!--</div>-->
+			</div>
+		</div>
 	</div>
-<div class="panel-body">
- <div class="form-group col-md-12 col-sm-12 checkbox checkbox-success" ng-repeat="event in $ctrl.validEvents">
-                        <input class="col-sm-1" type="checkbox" id="{{event.name}}" value="{{event.name}}" name="event_name" ng-click="$ctrl.addEvent(event)" ng-model="event.selected"/>
-						<label class="col-sm-3" for="{{event.name}}"> {{event.name}} </label>
-						<div class="form-group" ng-if="event.accommodation_provided && event.selected">
-						<label class="col-sm-3" for="{{event.accomodation}}"> Utaro - {{event.name}} </label>
-						<div class="radio-inline" id="sel1">
-							<label><input type="radio" name="event{{$index}}_{{event.id}}" value="true" ng-model="event.require_accomodation">Yes</label>
-							<label><input type="radio" name="event{{$index}}_{{event.id}}" value="false" ng-model="event.require_accomodation">No</label>
-						</div>
-						</div>
 </div>
-					</div>
-					</div>
 <div class="col-md-12 col-sm-12">
 	<div class="form-group col-md-3 col-sm-3" >
-			<input type="submit" class="btn btn-primary" value="Register"/>
+			<input type="submit" class="btn btn-success" value="Register"/>
 	</div>
 	</div>
 </form>

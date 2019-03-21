@@ -32,8 +32,8 @@ class ParticipantCtrl {
             /**********************************************************************/
             if(User.current.center === 1) {
                 var validEvents = _.filter(vm.events, (event) => {
-                    return _.inRange(_.parseInt(User.current.min_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
-                        _.inRange(_.parseInt(User.current.max_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
+                    return _.inRange(_.parseInt(event.min_age), _.parseInt(User.current.min_age), _.parseInt(User.current.max_age) + 1) &&
+                        _.inRange(_.parseInt(event.max_age), _.parseInt(User.current.min_age), _.parseInt(User.current.max_age) + 1) &&
                         (event.gender === User.current.gender);
                 }).map((validEvent) => {
                     return validEvent.id;
@@ -58,8 +58,8 @@ class ParticipantCtrl {
                 }
             } else {
                 var validEvents = _.filter(vm.events, (event) => {
-                    return _.inRange(_.parseInt(User.current.min_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
-                        _.inRange(_.parseInt(User.current.max_age), _.parseInt(event.min_age), _.parseInt(event.max_age) + 1) &&
+                    return _.inRange(_.parseInt(event.min_age), _.parseInt(User.current.min_age), _.parseInt(User.current.max_age) + 1) &&
+                        _.inRange(_.parseInt(event.max_age), _.parseInt(User.current.min_age), _.parseInt(User.current.max_age) + 1) &&
                         (event.gender === User.current.gender) && (event.center === User.current.center || event.center === 1);
                 }).map((validEvent) => {
                     return validEvent.id;

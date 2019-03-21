@@ -1,0 +1,261 @@
+[debug] [2018-11-10T08:35:53.764Z] ----------------------------------------------------------------------
+[debug] [2018-11-10T08:35:53.766Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\atuser01\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2018-11-10T08:35:53.767Z] CLI Version:   6.0.1
+[debug] [2018-11-10T08:35:53.767Z] Platform:      win32
+[debug] [2018-11-10T08:35:53.767Z] Node Version:  v6.11.0
+[debug] [2018-11-10T08:35:53.769Z] Time:          Sat Nov 10 2018 14:05:53 GMT+0530 (India Standard Time)
+[debug] [2018-11-10T08:35:53.769Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-10T08:35:53.784Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-10T08:35:53.785Z] > authorizing via signed-in user
+[debug] [2018-11-10T08:35:53.785Z] [iam] checking project aageseright-ef2a8 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2018-11-10T08:35:53.788Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/aageseright-ef2a8:testIamPermissions  
+
+[debug] [2018-11-10T08:35:55.374Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:35:55.375Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/aageseright-ef2a8  
+ 
+[debug] [2018-11-10T08:35:56.842Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'aageseright-ef2a8'...
+[info] 
+[info] i  deploying hosting
+[debug] [2018-11-10T08:35:56.849Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions  
+
+[debug] [2018-11-10T08:36:00.451Z] <<< HTTP RESPONSE 200
+[info] i  hosting[aageseright-ef2a8]: beginning deploy...
+[info] i  hosting[aageseright-ef2a8]: found 13 files in dist
+[debug] [2018-11-10T08:36:00.467Z] [hosting] hash cache [ZGlzdA] not populated
+[debug] [2018-11-10T08:36:00.573Z] [hosting] hash cache [ZGlzdA] stored for 13 files
+[debug] [2018-11-10T08:36:00.573Z] [hosting][hash queue][FINAL]
+[debug] [2018-11-10T08:36:00.573Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/2ab25c0a0d41660f:populateFiles  
+ <request body omitted>
+[debug] [2018-11-10T08:36:02.727Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:36:02.742Z] [hosting][populate queue][FINAL]
+[debug] [2018-11-10T08:36:02.742Z] [hosting] uploads queued: 13
+[debug] [2018-11-10T08:36:07.270Z] [hosting][upload queue][FINAL]
+[info] +  hosting[aageseright-ef2a8]: file upload complete
+[debug] [2018-11-10T08:36:07.272Z] [hosting] deploy completed after 6819ms
+[debug] [2018-11-10T08:36:07.274Z] [
+  {
+    "config": {
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "aageseright-ef2a8"
+    },
+    "site": "aageseright-ef2a8",
+    "version": "sites/aageseright-ef2a8/versions/2ab25c0a0d41660f"
+  }
+]
+[info] i  hosting[aageseright-ef2a8]: finalizing version...
+[debug] [2018-11-10T08:36:07.275Z] >>> HTTP REQUEST PATCH https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/2ab25c0a0d41660f?updateMask=status  
+
+[debug] [2018-11-10T08:36:08.225Z] Error: socket hang up
+    at createHangUpError (_http_client.js:253:15)
+    at TLSSocket.socketOnEnd (_http_client.js:345:23)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+[error] 
+[error] Error: Server Error. socket hang up
+[debug] [2018-11-10T08:36:17.939Z] ----------------------------------------------------------------------
+[debug] [2018-11-10T08:36:17.941Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\atuser01\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2018-11-10T08:36:17.942Z] CLI Version:   6.0.1
+[debug] [2018-11-10T08:36:17.942Z] Platform:      win32
+[debug] [2018-11-10T08:36:17.942Z] Node Version:  v6.11.0
+[debug] [2018-11-10T08:36:17.944Z] Time:          Sat Nov 10 2018 14:06:17 GMT+0530 (India Standard Time)
+[debug] [2018-11-10T08:36:17.944Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-10T08:36:17.961Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-10T08:36:17.962Z] > authorizing via signed-in user
+[debug] [2018-11-10T08:36:17.963Z] [iam] checking project aageseright-ef2a8 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2018-11-10T08:36:17.965Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/aageseright-ef2a8:testIamPermissions  
+
+[debug] [2018-11-10T08:36:20.374Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:36:20.376Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/aageseright-ef2a8  
+ 
+[debug] [2018-11-10T08:36:22.228Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'aageseright-ef2a8'...
+[info] 
+[info] i  deploying hosting
+[debug] [2018-11-10T08:36:22.235Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions  
+
+[debug] [2018-11-10T08:36:25.251Z] <<< HTTP RESPONSE 200
+[info] i  hosting[aageseright-ef2a8]: beginning deploy...
+[info] i  hosting[aageseright-ef2a8]: found 13 files in dist
+[debug] [2018-11-10T08:36:25.269Z] [hosting] hash cache [ZGlzdA] load error: lines is not defined
+[debug] [2018-11-10T08:36:25.335Z] [hosting] hash cache [ZGlzdA] stored for 13 files
+[debug] [2018-11-10T08:36:25.335Z] [hosting][hash queue][FINAL]
+[debug] [2018-11-10T08:36:25.335Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/3592708c2286e69f:populateFiles  
+ <request body omitted>
+[debug] [2018-11-10T08:36:28.456Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:36:28.457Z] [hosting][populate queue][FINAL]
+[debug] [2018-11-10T08:36:28.457Z] [hosting] uploads queued: 0
+[debug] [2018-11-10T08:36:28.457Z] [hosting][upload queue][FINAL]
+[info] +  hosting[aageseright-ef2a8]: file upload complete
+[debug] [2018-11-10T08:36:28.459Z] [hosting] deploy completed after 3205ms
+[debug] [2018-11-10T08:36:28.461Z] [
+  {
+    "config": {
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "aageseright-ef2a8"
+    },
+    "site": "aageseright-ef2a8",
+    "version": "sites/aageseright-ef2a8/versions/3592708c2286e69f"
+  }
+]
+[info] i  hosting[aageseright-ef2a8]: finalizing version...
+[debug] [2018-11-10T08:36:28.463Z] >>> HTTP REQUEST PATCH https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/3592708c2286e69f?updateMask=status  
+
+[debug] [2018-11-10T08:36:29.687Z] Error: socket hang up
+    at createHangUpError (_http_client.js:253:15)
+    at TLSSocket.socketOnEnd (_http_client.js:345:23)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+[error] 
+[error] Error: Server Error. socket hang up
+[debug] [2018-11-10T08:36:35.408Z] ----------------------------------------------------------------------
+[debug] [2018-11-10T08:36:35.411Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\atuser01\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2018-11-10T08:36:35.411Z] CLI Version:   6.0.1
+[debug] [2018-11-10T08:36:35.411Z] Platform:      win32
+[debug] [2018-11-10T08:36:35.411Z] Node Version:  v6.11.0
+[debug] [2018-11-10T08:36:35.413Z] Time:          Sat Nov 10 2018 14:06:35 GMT+0530 (India Standard Time)
+[debug] [2018-11-10T08:36:35.414Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-10T08:36:35.428Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-10T08:36:35.429Z] > authorizing via signed-in user
+[debug] [2018-11-10T08:36:35.429Z] [iam] checking project aageseright-ef2a8 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2018-11-10T08:36:35.432Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/aageseright-ef2a8:testIamPermissions  
+
+[debug] [2018-11-10T08:36:37.724Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:36:37.725Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/aageseright-ef2a8  
+ 
+[debug] [2018-11-10T08:36:39.570Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'aageseright-ef2a8'...
+[info] 
+[info] i  deploying hosting
+[debug] [2018-11-10T08:36:39.579Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions  
+
+[debug] [2018-11-10T08:36:42.714Z] <<< HTTP RESPONSE 200
+[info] i  hosting[aageseright-ef2a8]: beginning deploy...
+[info] i  hosting[aageseright-ef2a8]: found 13 files in dist
+[debug] [2018-11-10T08:36:42.731Z] [hosting] hash cache [ZGlzdA] load error: lines is not defined
+[debug] [2018-11-10T08:36:42.798Z] [hosting] hash cache [ZGlzdA] stored for 13 files
+[debug] [2018-11-10T08:36:42.798Z] [hosting][hash queue][FINAL]
+[debug] [2018-11-10T08:36:42.798Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/6eeda6a7847acc4a:populateFiles  
+ <request body omitted>
+[debug] [2018-11-10T08:36:45.644Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:36:45.644Z] [hosting][populate queue][FINAL]
+[debug] [2018-11-10T08:36:45.644Z] [hosting] uploads queued: 0
+[debug] [2018-11-10T08:36:45.645Z] [hosting][upload queue][FINAL]
+[info] +  hosting[aageseright-ef2a8]: file upload complete
+[debug] [2018-11-10T08:36:45.646Z] [hosting] deploy completed after 2929ms
+[debug] [2018-11-10T08:36:45.648Z] [
+  {
+    "config": {
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "aageseright-ef2a8"
+    },
+    "site": "aageseright-ef2a8",
+    "version": "sites/aageseright-ef2a8/versions/6eeda6a7847acc4a"
+  }
+]
+[info] i  hosting[aageseright-ef2a8]: finalizing version...
+[debug] [2018-11-10T08:36:45.650Z] >>> HTTP REQUEST PATCH https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/6eeda6a7847acc4a?updateMask=status  
+
+[debug] [2018-11-10T08:36:46.869Z] Error: socket hang up
+    at createHangUpError (_http_client.js:253:15)
+    at TLSSocket.socketOnEnd (_http_client.js:345:23)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+[error] 
+[error] Error: Server Error. socket hang up
+[debug] [2018-11-10T08:42:09.615Z] ----------------------------------------------------------------------
+[debug] [2018-11-10T08:42:09.615Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\atuser01\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --debug
+[debug] [2018-11-10T08:42:09.615Z] CLI Version:   6.0.1
+[debug] [2018-11-10T08:42:09.615Z] Platform:      win32
+[debug] [2018-11-10T08:42:09.615Z] Node Version:  v6.11.0
+[debug] [2018-11-10T08:42:09.615Z] Time:          Sat Nov 10 2018 14:12:09 GMT+0530 (India Standard Time)
+[debug] [2018-11-10T08:42:09.615Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-11-10T08:42:09.647Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-11-10T08:42:09.651Z] > authorizing via signed-in user
+[debug] [2018-11-10T08:42:09.652Z] [iam] checking project aageseright-ef2a8 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2018-11-10T08:42:09.655Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/aageseright-ef2a8:testIamPermissions  
+
+[debug] [2018-11-10T08:42:12.007Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:42:12.007Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/aageseright-ef2a8  
+ 
+[debug] [2018-11-10T08:42:13.780Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'aageseright-ef2a8'...
+[info] 
+[info] i  deploying hosting
+[debug] [2018-11-10T08:42:13.802Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions  
+
+[debug] [2018-11-10T08:42:16.689Z] <<< HTTP RESPONSE 200
+[info] i  hosting[aageseright-ef2a8]: beginning deploy...
+[info] i  hosting[aageseright-ef2a8]: found 13 files in dist
+[debug] [2018-11-10T08:42:16.705Z] [hosting] hash cache [ZGlzdA] load error: lines is not defined
+[debug] [2018-11-10T08:42:16.767Z] [hosting] hash cache [ZGlzdA] stored for 13 files
+[debug] [2018-11-10T08:42:16.783Z] [hosting][hash queue][FINAL]
+[debug] [2018-11-10T08:42:16.783Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/bc55d29c1dce4c4e:populateFiles  
+ <request body omitted>
+[info] i  hosting: adding files to version [0/13] (0%)
+[debug] [2018-11-10T08:42:19.579Z] <<< HTTP RESPONSE 200
+[debug] [2018-11-10T08:42:19.596Z] [hosting][populate queue][FINAL]
+[debug] [2018-11-10T08:42:19.597Z] [hosting] uploads queued: 0
+[debug] [2018-11-10T08:42:19.598Z] [hosting][upload queue][FINAL]
+[info] +  hosting[aageseright-ef2a8]: file upload complete
+[debug] [2018-11-10T08:42:19.600Z] [hosting] deploy completed after 2911ms
+[debug] [2018-11-10T08:42:19.603Z] [
+  {
+    "config": {
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "aageseright-ef2a8"
+    },
+    "site": "aageseright-ef2a8",
+    "version": "sites/aageseright-ef2a8/versions/bc55d29c1dce4c4e"
+  }
+]
+[info] i  hosting[aageseright-ef2a8]: finalizing version...
+[debug] [2018-11-10T08:42:19.607Z] >>> HTTP REQUEST PATCH https://firebasehosting.googleapis.com/v1beta1/sites/aageseright-ef2a8/versions/bc55d29c1dce4c4e?updateMask=status  
+
+[debug] [2018-11-10T08:42:20.771Z] Error: socket hang up
+    at createHangUpError (_http_client.js:253:15)
+    at TLSSocket.socketOnEnd (_http_client.js:345:23)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+[error] 
+[error] Error: Server Error. socket hang up

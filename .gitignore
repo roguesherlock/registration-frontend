@@ -1,0 +1,5 @@
+node_modules/**
+dist.zip
+dist/**
+build/**
+src/js/config/app.templates.js

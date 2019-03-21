@@ -106,7 +106,7 @@ gulp.task('default', ['html', 'browserify'], function() {
     }
   });
 
-  gulp.watch("src/index.html", ['html']);
-  gulp.watch(viewFiles, ['views']);
-  gulp.watch(jsFiles, ['browserify']);
+  gulp.watch("src/index.html", ['build']);
+  gulp.watch(viewFiles, ['build']);
+  gulp.watch(jsFiles, ['build']);
 });

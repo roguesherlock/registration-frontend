@@ -53,8 +53,12 @@ class RegistrationCtrl {
                 let promises = [];
                 vm.baseCtrl.saving = true;
                 _.each(vm.user.events, (tempEvent) => {
-                    vm.user.father_name = "NA" || vm.user.father_name;
-                    vm.user.father_mobile = "0123456789" || vm.user.father_mobile;
+                    let eventParentCenter = _.find(vm.centers, {id: tempEvent.center});
+                    if(eventParentCenter && eventParentCenter.parent) {
+                        eventParentCenter = eventParentCenter.parent;
+                    }
+                    vm.user.father_name = vm.user.father_name || "NA";
+                    vm.user.father_mobile = vm.user.father_mobile || "0123456789";
                     let data = {
                         participant: angular.copy(vm.user),
                         event: tempEvent.id,
@@ -64,7 +68,7 @@ class RegistrationCtrl {
                         amount_paid: 0,
                         //cashier: "",
                         role: vm.user.role || "participant",
-                        home_center: vm.user.center,
+                        home_center: eventParentCenter === vm.user.center ? tempEvent.center : vm.user.center,
                         event_center: tempEvent.center,
                         big_buddy: vm.user.big_buddy,
                         goal_achievement: vm.user.goal_achievement
@@ -143,8 +147,12 @@ class RegistrationCtrl {
                 vm.user.age = age;
                 vm.roleEnabled = (age > 21);
                 vm.validEvents = _.filter(vm.events, (e) => {
+                    let eventParentCenter = _.find(vm.centers, {id: e.center});
+                    if(eventParentCenter && eventParentCenter.parent) {
+                        eventParentCenter = eventParentCenter.parent;
+                    }
                     return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender) && 
-                    vm.home_center && (vm.home_center.id === e.center || e.center === 1);
+                    vm.home_center && (vm.home_center.id === e.center || e.center === 1 || (eventParentCenter === vm.home_center.id));
                 });
                 if (_.isNil(vm.validEvents) || vm.validEvents.length === 0) {
                     vm.validEvents = _.filter(vm.events, (e) => {
@@ -158,7 +166,11 @@ class RegistrationCtrl {
                     });
                 }
                 vm.validEvents = _.filter(vm.validEvents, (e) => {
-                    return vm.home_center && (vm.home_center.id === e.center || e.center === 1);
+                    let eventParentCenter = _.find(vm.centers, {id: e.center});
+                    if(eventParentCenter && eventParentCenter.parent) {
+                        eventParentCenter = eventParentCenter.parent;
+                    }
+                    return vm.home_center && (vm.home_center.id === e.center || e.center === 1 || (eventParentCenter === vm.home_center.id));
                 });
                 if (vm.validEvents.length === 1) {
                     vm.addEvent(vm.validEvents[0]);

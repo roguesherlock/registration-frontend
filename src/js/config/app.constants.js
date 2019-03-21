@@ -1,8 +1,8 @@
 const AppConstants = {
-    api: 'http://ec2-13-127-98-182.ap-south-1.compute.amazonaws.com',
+    api: 'http://ec2-13-232-87-27.ap-south-1.compute.amazonaws.com',
     //api: 'http://localhost:8000',
     jwtKey: 'jwtToken',
-    appName: 'Fuzion Registration',
+    appName: 'Event Registration',
     participantSchema: {
         type: 'object',
         properties: {
