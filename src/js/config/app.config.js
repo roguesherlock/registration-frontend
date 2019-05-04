@@ -34,7 +34,10 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
         })
         .state('base.register', {
             url: '/register',
-            template: '<registration-form></registration-form>'
+            template: '<registration-form></registration-form>',
+            params: {
+                val : 'Summer'
+            }
         })
         .state('base.listPage', {
             url: '/details',

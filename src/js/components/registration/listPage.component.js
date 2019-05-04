@@ -1,5 +1,5 @@
 class listCtrl {
-    constructor($uibModal) {
+    constructor($uibModal, $state) {
         'ngInject';
         var vm = this;
         vm.showList = [false, false];
@@ -23,20 +23,20 @@ class listCtrl {
                 return 'Boys & Girls';
             }
         }
-        vm.enable = function(index) {
+        vm.enable = function (index) {
             vm.showImage = !vm.showImage;
             vm.showList[index] = true;
             vm.showList[index ^ 1] = false;
             console.log(vm.showList);
         }
-        vm.enableImage = function() {
+        vm.enableImage = function () {
             vm.showImage = !vm.showImage;
             console.log(vm.showImage);
         }
-        vm.goRegister() = function(val) {
-            val === 'yuva' ? $state.go('base.register')
+        vm.goRegister = function (val) {
+            $state.go('base.register', { val: val })
         }
-        vm.disable = function(index) {
+        vm.disable = function (index) {
             vm.showList[index] = false;
         }
     }

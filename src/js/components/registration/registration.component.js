@@ -3,7 +3,9 @@ class RegistrationCtrl {
         'ngInject';
         var vm = this;
 
-        vm.header = 'Summer Camp'
+        console.log($state);
+        console.log($state.params.val);
+        vm.header = $state.params.val;
 
         vm._ = _;
         vm.$onInit = function () {
