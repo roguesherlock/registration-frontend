@@ -47,6 +47,6 @@ angular.module('app').config(appConfig);
 
 angular.module('app').run(appRun);
 
-angular.bootstrap(document.getElementById("ang-app"), ['app'], {
+angular.bootstrap(document, ['app'], {
     strictDi: true
 });

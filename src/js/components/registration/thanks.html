@@ -1,27 +1,47 @@
 <div class="container">
-<div class="row">
-<div class="panel panel-primary" style="margin:20px">
-	<div class="panel-heading" style="background-color: #b3935a">
-			<h3 class="panel-title">Thank you {{savedData.participant.first_name}} {{savedData.participant.last_name}} for registering</h3>
-	</div>
-	<div class="panel-body">
-				<ul><h5>Process to follow:</h5>
-				<li><h5 class="bg-success">Step 1 of your registration is complete.<br/>
-				Your registration number is {{savedData.registration_no}}.<br/>
-				Please contact local Ymht center coordinator for further details.<br/></h5></li>
+	<div class="row">
+		<div class="panel panel-primary" style="margin:20px">
+			<div class="panel-heading">
+				<h3 class="panel-title">Thank you {{savedData.participant.first_name}}
+					{{savedData.participant.last_name}} for registering</h3>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<h5>Process to follow:</h5>
+					<li>
+						<h5 class="bg-warning">Step 1 of your registration is complete.<br />
+							Your registration number is {{savedData.registration_no}}.<br />
+							Please contact local Ymht center coordinator for further details.<br /></h5>
+					</li>
 				</ul>
 				<table class="table">
 					<tbody>
-						<tr><td>Event Details:</td></tr>
-						<tr class="active"><td>Name: {{current_event.name}}</td></tr>
-						<tr class="success"><td>Event Dates: {{$ctrl.formatDate(current_event.start_date)}} - {{$ctrl.formatDate(current_event.end_date)}}</td></tr>
-						<tr class="active"><td>Registration Fees: {{current_event.fees}}</td></tr>
-						<tr class="success"><td>Last date of registration: {{$ctrl.formatDate(current_event.last_date_of_registration)}}</td></tr>
-						<tr class="active"><td>Late Fees: {{current_event.late_fees}}</td></tr>
-						<tr class="success"><td>Venue: {{current_event.venue.raw}}</td></tr>
+						<tr>
+							<td>Event Details:</td>
+						</tr>
+						<tr class="active">
+							<td>Name: {{current_event.name}}</td>
+						</tr>
+						<tr class="success">
+							<td>Event Dates: {{$ctrl.formatDate(current_event.start_date)}} -
+								{{$ctrl.formatDate(current_event.end_date)}}</td>
+						</tr>
+						<tr class="active">
+							<td>Registration Fees: {{current_event.fees}}</td>
+						</tr>
+						<tr class="success">
+							<td>Last date of registration: {{$ctrl.formatDate(current_event.last_date_of_registration)}}
+							</td>
+						</tr>
+						<tr class="active">
+							<td>Late Fees: {{current_event.late_fees}}</td>
+						</tr>
+						<tr class="success">
+							<td>Venue: {{current_event.venue.raw}}</td>
+						</tr>
 					</tbody>
 				</table>
-	</div>	
+			</div>
+		</div>
 	</div>
-</div>
 </div>

@@ -36,6 +36,10 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
             url: '/register',
             template: '<registration-form></registration-form>'
         })
+        .state('base.listPage', {
+            url: '/details',
+            template: '<list-page></list-page>'
+        })
         .state('base.thanks', {
             url: '/thanks',
             template: '<thank-you></thank-you>'
@@ -44,7 +48,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
             url: "",
             abstract: true,
             resolve: {
-                auth: function(User) {
+                auth: function (User) {
                     return User.verifyAuth();
                 }
             },
@@ -54,7 +58,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
             url: '/login',
             template: '<login-form></login-form>',
             resolve: {
-                auth: function(User) {
+                auth: function (User) {
                     return User.ensureAuthIs(false);
                 }
             }

@@ -11,24 +11,17 @@
           <fieldset ng-disabled="$ctrl.isSubmitting">
 
             <fieldset class="form-group">
-              <input class="form-control form-control-lg"
-                type="text"
-                aplaceholder="Username",
-                v-model="message"
-                nag-model="$ctrl.formData.username" />
+              <input class="form-control form-control-lg" type="text" placeholder="Username" ,
+                ng-model="$ctrl.formData.username" />
             </fieldset>
 
 
             <fieldset class="form-group">
-              <input class="form-control form-control-lg"
-                type="password"
-                placeholder="Password"
+              <input class="form-control form-control-lg" type="password" placeholder="Password"
                 ng-model="$ctrl.formData.password" />
             </fieldset>
 
-            <button class="btn btn-lg btn-primary pull-xs-right"
-              type="submit"
-              ng-bind="::$ctrl.title">
+            <button class="btn btn-lg btn-primary pull-xs-right" type="submit" ng-bind="::$ctrl.title">
             </button>
 
           </fieldset>

@@ -2,8 +2,11 @@ class RegistrationCtrl {
     constructor($scope, $state, $q, $rootScope, $uibModal, toastr, RegisterService) {
         'ngInject';
         var vm = this;
+
+        vm.header = 'Summer Camp'
+
         vm._ = _;
-        vm.$onInit = function() {
+        vm.$onInit = function () {
             vm.user = {
                 gender: 'male'
             };
@@ -28,11 +31,11 @@ class RegistrationCtrl {
             startingDay: 1
         };
         vm.altInputFormats = ['M!/d!/yyyy'];
-        vm.open1 = function() {
+        vm.open1 = function () {
             vm.popup1.opened = true;
         };
 
-        vm.setHomeCenter = function(model) {
+        vm.setHomeCenter = function (model) {
             if (_.isNil(vm.user)) {
                 vm.user = {};
             }
@@ -40,21 +43,21 @@ class RegistrationCtrl {
             vm.getEventAndRoleDetails();
         }
 
-        vm.register = function() {
+        vm.register = function () {
             if ($scope.registerForm.$valid && vm.user.events && vm.user.events.length > 0) {
                 var abs = true;
                 _.each(vm.user.events, (e1) => {
-                    if(_.isNil(e1.require_accomodation) && e1.accommodation_provided) {
+                    if (_.isNil(e1.require_accomodation) && e1.accommodation_provided) {
                         toastr.error('Please select utaro.', '');
                         abs = false;
-                    }                    
+                    }
                 });
-                if(!abs) return;
+                if (!abs) return;
                 let promises = [];
                 vm.baseCtrl.saving = true;
                 _.each(vm.user.events, (tempEvent) => {
-                    let eventParentCenter = _.find(vm.centers, {id: tempEvent.center});
-                    if(eventParentCenter && eventParentCenter.parent) {
+                    let eventParentCenter = _.find(vm.centers, { id: tempEvent.center });
+                    if (eventParentCenter && eventParentCenter.parent) {
                         eventParentCenter = eventParentCenter.parent;
                     }
                     vm.user.father_name = vm.user.father_name || "NA";
@@ -79,7 +82,7 @@ class RegistrationCtrl {
                 $q.all(promises).then((data) => {
                     vm.baseCtrl.saving = false;
                     $state.go('base.thanks');
-                    _.defer(function() {
+                    _.defer(function () {
                         $rootScope.$emit('registered', data[0]);
                     });
                 }).catch((err) => {
@@ -90,18 +93,18 @@ class RegistrationCtrl {
 
 
         vm.roles = [{
-                id: 2,
-                name: 'helper'
-            },
-            {
-                id: 3,
-                name: 'coordinator'
-            }
+            id: 2,
+            name: 'helper'
+        },
+        {
+            id: 3,
+            name: 'coordinator'
+        }
         ];
         //vm.user.events = [];
 
 
-        vm.getEventAndRoleDetails = function() {
+        vm.getEventAndRoleDetails = function () {
             vm.validCenters = [];
             vm.validEvents = [];
             vm.user.events = [];
@@ -111,7 +114,7 @@ class RegistrationCtrl {
                 delete e.selected;
                 delete e.require_accomodation;
             });
-            if(moment(`${vm.day}-${vm.month}-${vm.year}`, "DD-MMMM-YYYY").isValid()) {
+            if (moment(`${vm.day}-${vm.month}-${vm.year}`, "DD-MMMM-YYYY").isValid()) {
                 vm.user.date_of_birth = moment(`${vm.day}-${vm.month}-${vm.year}`, "DD-MMMM-YYYY").toDate();
             } else {
                 vm.user.date_of_birth = null;
@@ -124,16 +127,16 @@ class RegistrationCtrl {
                 });
                 //console.log("1", validCenterScopes);
                 if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
-                    if(vm.user.gender === 'male') {
+                    if (vm.user.gender === 'male') {
                         validCenterScopes = _.filter(vm.centerScopes, (cen) => {
                             return cen[0].gender === 'male';
                         });
-                    } else if(vm.user.gender === 'female') {
+                    } else if (vm.user.gender === 'female') {
                         validCenterScopes = _.filter(vm.centerScopes, (cen) => {
                             return !cen[0].gender || cen[0].gender === 'female';
                         });
                     }
-                } 
+                }
                 if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
                     vm.validCenters = vm.centers;
                 } else {
@@ -147,12 +150,12 @@ class RegistrationCtrl {
                 vm.user.age = age;
                 vm.roleEnabled = (age > 21);
                 vm.validEvents = _.filter(vm.events, (e) => {
-                    let eventParentCenter = _.find(vm.centers, {id: e.center});
-                    if(eventParentCenter && eventParentCenter.parent) {
+                    let eventParentCenter = _.find(vm.centers, { id: e.center });
+                    if (eventParentCenter && eventParentCenter.parent) {
                         eventParentCenter = eventParentCenter.parent;
                     }
-                    return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender) && 
-                    vm.home_center && (vm.home_center.id === e.center || e.center === 1 || (eventParentCenter === vm.home_center.id));
+                    return age >= _.parseInt(e.min_age) && age <= _.parseInt(e.max_age) && (vm.user.gender === e.gender || !e.gender) &&
+                        vm.home_center && (vm.home_center.id === e.center || e.center === 1 || (eventParentCenter === vm.home_center.id));
                 });
                 if (_.isNil(vm.validEvents) || vm.validEvents.length === 0) {
                     vm.validEvents = _.filter(vm.events, (e) => {
@@ -166,8 +169,8 @@ class RegistrationCtrl {
                     });
                 }
                 vm.validEvents = _.filter(vm.validEvents, (e) => {
-                    let eventParentCenter = _.find(vm.centers, {id: e.center});
-                    if(eventParentCenter && eventParentCenter.parent) {
+                    let eventParentCenter = _.find(vm.centers, { id: e.center });
+                    if (eventParentCenter && eventParentCenter.parent) {
                         eventParentCenter = eventParentCenter.parent;
                     }
                     return vm.home_center && (vm.home_center.id === e.center || e.center === 1 || (eventParentCenter === vm.home_center.id));
@@ -180,7 +183,7 @@ class RegistrationCtrl {
         }
 
 
-        vm.calculateAge = function(dateOfBirth, dateToCalculate) {
+        vm.calculateAge = function (dateOfBirth, dateToCalculate) {
             var calculateYear = dateToCalculate.getFullYear();
             var calculateMonth = dateToCalculate.getMonth();
             var calculateDay = dateToCalculate.getDate();
@@ -199,14 +202,14 @@ class RegistrationCtrl {
             return age;
         }
 
-        vm.addEvent = function(event) {
+        vm.addEvent = function (event) {
             if (_.isNil(vm.user)) {
                 vm.user = {};
             }
             vm.user.events = _.isNil(vm.user.events) ? [] : vm.user.events;
             if (_.find(vm.user.events, {
-                    id: event.id
-                })) {
+                id: event.id
+            })) {
                 event.require_accomodation = false;
                 vm.user.events = _.filter(vm.user.events, (e) => e.id !== event.id);
             } else {

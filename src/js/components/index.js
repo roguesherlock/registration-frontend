@@ -10,6 +10,7 @@ import loginForm from './auth/auth.component';
 import baseLayout from './registration/base.component';
 import dashBoard from './registration/dashboard.component';
 import eventDetails from './registration/edit-modal.component';
+import listPage from './registration/listPage.component.js';
 
 componentsModule.component('registrationForm', registrationForm)
     .component('participantList', participantList)
@@ -17,6 +18,7 @@ componentsModule.component('registrationForm', registrationForm)
     .component('loginForm', loginForm)
     .component('baseLayout', baseLayout)
     .component('dashBoard', dashBoard)
-    .component('eventDetails', eventDetails);
+    .component('eventDetails', eventDetails)
+    .component('listPage', listPage);
 
 export default componentsModule;
