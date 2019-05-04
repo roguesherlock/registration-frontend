@@ -2,6 +2,11 @@ class listCtrl {
     constructor($uibModal) {
         'ngInject';
         var vm = this;
+        vm.showList = [false, false];
+        // vm.events = vm.baseCtrl.events;
+        vm.$onInit = function () {
+            vm.events = vm.baseCtrl.events;
+        }
         vm.formatDate = function (date) {
             return moment(date).format("Do MMM YYYY")
         }
@@ -22,9 +27,7 @@ class listCtrl {
 export default {
     controller: listCtrl,
     templateUrl: 'components/registration/listPage.html',
-    bindings: {
-        resolve: '<',
-        close: '&',
-        dismiss: '&'
+    require: {
+        baseCtrl: '^baseLayout',
     }
 }

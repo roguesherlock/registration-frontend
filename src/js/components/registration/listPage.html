@@ -1,13 +1,22 @@
 <div>
-    <div class="modal-header" style="background-color: #b3935a">
-        <h5 class="modal-title" id="modal-title">Summer Camp Details</h5>
+    <div class="text-center">
+        <img style="height: 250px;" src="https://youth.dadabhagwan.org/media/215985/SC2019_YouthWeb.png" alt="Yuva!">
     </div>
-    <uib-accordion class="row">
-        <div class="col-md-6 col-sm-6">
-            <div uib-accordion-group class="panel-success"
-                ng-repeat="tempevent in $ctrl.resolve.events | orderBy: 'start_date'"
+    <div class="text-center">
+        <img src="https://youth.dadabhagwan.org/media/78176/New-Yuva.png" alt="Yuva!">
+    </div>
+</div>
+
+
+<div>
+    <div class="col-md-6 col-sm-6">
+        <uib-accordion class="row">
+            <div class="modal-header" style="background-color: #b3935a">
+                <h5 class="modal-title" id="modal-title">Summer Camp Details</h5>
+            </div>
+            <div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date'"
                 heading="{{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) - {{$ctrl.formatGender(tempevent.gender)}}">
-                <!-- <table class="table">
+                <table class="table">
                     <tbody>
                         <tr class="active">
                             <td>Event Dates: {{$ctrl.formatDate(tempevent.start_date)}} -
@@ -30,16 +39,18 @@
                             <td>Contact: {{tempevent.remarks}}</td>
                         </tr>
                     </tbody>
-                </table> -->
+                </table>
             </div>
-            Summer Camp Details
-        </div>
-        <div class="col-md-6 col-sm-6">
-            Yuva Camp Details
-            <div uib-accordion-group class="panel-success"
-                ng-repeat="tempevent in $ctrl.resolve.events | orderBy: 'start_date'"
+        </uib-accordion>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <uib-accordion class="row">
+            <div class="modal-header" style="background-color: #b3935a">
+                <h5 class="modal-title" id="modal-title">Yuva Camp Details</h5>
+            </div>
+            <div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date'"
                 heading="{{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) - {{$ctrl.formatGender(tempevent.gender)}}">
-                <!-- <table class="table">
+                <table class="table">
                     <tbody>
                         <tr class="active">
                             <td>Event Dates: {{$ctrl.formatDate(tempevent.start_date)}} -
@@ -62,11 +73,8 @@
                             <td>Contact: {{tempevent.remarks}}</td>
                         </tr>
                     </tbody>
-                </table> -->
+                </table>
             </div>
-        </div>
-    </uib-accordion>
-    <div class="modal-footer">
-        <button class="btn btn-success" type="button" ng-click="$ctrl.ok()">OK</button>
+        </uib-accordion>
     </div>
 </div>
