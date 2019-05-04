@@ -114,7 +114,7 @@
 							<label for="center">YMHT Center*</label>
 							<div id="scrollable-dropdown-menu">
 								<input id="center" name="center" type="text" ng-model="$ctrl.home_center"
-									uib-typeahead="t as t.name for t in $ctrl.validCenters | filter:{name:$viewValue, is_displayed: true}"
+									uib-typeahead="t as t.name for t in $ctrl.validCenters | filter:{name:$viewValue, is_displayed: $ctrl.display}"
 									class="form-control" typeahead-show-hint="true" typeahead-min-length="0"
 									typeahead-on-select="$ctrl.setHomeCenter($item)" typeahead-editable="false" ng-required="true">
 							</div>
@@ -187,7 +187,7 @@
 
 					</div>
 
-					<div class="form-group col-md-12 col-sm-12" ng-if="$ctrl.roleEnabled && false">
+					<div class="form-group col-md-12 col-sm-12" ng-if="$ctrl.roleEnabled">
 						<div class="form-group col-md-12 col-sm-12"
 							ng-class="{ 'has-error' : registerForm.role.$invalid && registerForm.$submitted}">
 							<label for="role">As a</label>

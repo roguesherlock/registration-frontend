@@ -19,6 +19,7 @@ class RegistrationCtrl {
             vm.other_center = _.find(vm.centers, {
                 name: 'Other'
             }).id;
+            vm.display = true;
         }
 
         vm.format = 'dd-MMMM-yyyy';
@@ -139,7 +140,11 @@ class RegistrationCtrl {
                         });
                     }
                 }
-                if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
+                if($state.params.val == 'Yuva Camp') {
+                    vm.display = undefined;
+                    vm.validCenters = _.filter(vm.centers, (c) => !c.name.includes("-"));
+                }
+                else if (_.isNil(validCenterScopes) || validCenterScopes.length === 0) {
                     vm.validCenters = vm.centers;
                 } else {
                     let validCentersIds = _.flatten(_.map(validCenterScopes, (cs) => _.map(cs[1], (h) => h.center)));
@@ -177,6 +182,9 @@ class RegistrationCtrl {
                     }
                     return vm.home_center && (vm.home_center.id === e.center || e.center === 1 || (eventParentCenter === vm.home_center.id));
                 });
+                if($state.params.val == 'Yuva Camp') {
+                    vm.validEvents = _.filter(vm.events, (e) => e.name.includes("Yuva"));
+                }
                 if (vm.validEvents.length === 1) {
                     vm.addEvent(vm.validEvents[0]);
                     vm.validEvents[0].selected = true;
