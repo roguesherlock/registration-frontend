@@ -3,6 +3,7 @@ class listCtrl {
         'ngInject';
         var vm = this;
         vm.showList = [false, false];
+        vm.showImage = true;
         // vm.events = vm.baseCtrl.events;
         vm.$onInit = function () {
             vm.events = vm.baseCtrl.events;
@@ -21,6 +22,22 @@ class listCtrl {
             } else {
                 return 'Boys & Girls';
             }
+        }
+        vm.enable = function(index) {
+            vm.showImage = !vm.showImage;
+            vm.showList[index] = true;
+            vm.showList[index ^ 1] = false;
+            console.log(vm.showList);
+        }
+        vm.enableImage = function() {
+            vm.showImage = !vm.showImage;
+            console.log(vm.showImage);
+        }
+        vm.goRegister() = function(val) {
+            val === 'yuva' ? $state.go('base.register')
+        }
+        vm.disable = function(index) {
+            vm.showList[index] = false;
         }
     }
 }

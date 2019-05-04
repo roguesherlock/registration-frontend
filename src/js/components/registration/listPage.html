@@ -1,20 +1,29 @@
-<div>
-    <div class="text-center">
-        <img style="height: 250px;" src="https://youth.dadabhagwan.org/media/215985/SC2019_YouthWeb.png" alt="Yuva!">
+<div ng-if="$ctrl.showImage">
+    <div class="text-center" style="margin-top: 20px;" ng-click="$ctrl.enable(0)">
+        <img style="height: 300px; width: 50%;" src="https://youth.dadabhagwan.org/media/215985/SC2019_YouthWeb.png" alt="Yuva!">
     </div>
-    <div class="text-center">
-        <img src="https://youth.dadabhagwan.org/media/78176/New-Yuva.png" alt="Yuva!">
+    <div class="text-center" ng-click="$ctrl.enable(1)">
+        <img style="height: 300px; width: 50%;" src="https://youth.dadabhagwan.org/media/78176/New-Yuva.png" alt="Yuva!">
     </div>
 </div>
 
 
-<div>
-    <div class="col-md-6 col-sm-6">
+<div ng-if="!$ctrl.showImage">
+    <div class="col-md-12 col-sm-12" ng-if="$ctrl.showList[0]">
+                <div class="row" style="background-color: #b3935a; padding: 10px;">
+                    <div class="col-md-2 col-sm-2">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.enableImage()">GO BACK</button>
+                    </div>
+                    <div class="col-md-8 col-sm-8 text-center">
+                        <h5 class="modal-title sup" id="modal-title" style="font-size: 25px;">
+                            <b>Summer Camp Details</b> </h5>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <button class="btn btn-success" type="button" ng-click="$ctrl.goRegister()">Register</button>
+                    </div>
+                </div>
         <uib-accordion class="row">
-            <div class="modal-header" style="background-color: #b3935a">
-                <h5 class="modal-title" id="modal-title">Summer Camp Details</h5>
-            </div>
-            <div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date'"
+            <div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date'| filter:{name: 'summer'}"
                 heading="{{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) - {{$ctrl.formatGender(tempevent.gender)}}">
                 <table class="table">
                     <tbody>
@@ -43,12 +52,21 @@
             </div>
         </uib-accordion>
     </div>
-    <div class="col-md-6 col-sm-6">
-        <uib-accordion class="row">
-            <div class="modal-header" style="background-color: #b3935a">
-                <h5 class="modal-title" id="modal-title">Yuva Camp Details</h5>
+    <div class="col-md-12 col-sm-12" ng-if="$ctrl.showList[1]">
+        <div class="row" style="background-color: #b3935a;  padding: 10px;">
+            <div class="col-md-2 col-sm-2 text-center">
+                <button class="btn btn-primary" type="button" ng-click="$ctrl.enableImage()">GO BACK</button>
             </div>
-            <div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date'"
+            <div class="col-md-8 col-sm-8 text-center">
+                <h5 class="modal-title" style="font-size: 25px;" id="modal-title">
+                    <b>Yuva Camp Details</b></h5>
+            </div>
+            <div class="col-md-2 col-sm-2 text-center">
+                <button class="btn btn-success" type="button" ng-click="$ctrl.goRegister(yuva)">Register</button>
+            </div>
+        </div>
+        <uib-accordion class="row">
+            <div uib-accordion-group class="panel-success" ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date' | filter:{name: 'yuva'}"
                 heading="{{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) - {{$ctrl.formatGender(tempevent.gender)}}">
                 <table class="table">
                     <tbody>

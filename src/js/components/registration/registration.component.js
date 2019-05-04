@@ -219,15 +219,16 @@ class RegistrationCtrl {
         }
 
         vm.openComponentModal = function () {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                component: 'eventDetails',
-                resolve: {
-                    events: function () {
-                        return vm.events;
-                    }
-                }
-            });
+            $state.go('base.listPage');
+//            var modalInstance = $uibModal.open({
+//                animation: true,
+//                component: 'eventDetails',
+//                resolve: {
+//                    events: function () {
+//                        return vm.events;
+//                    }
+//                }
+//            });
         };
     }
 
