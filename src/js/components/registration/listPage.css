@@ -1,0 +1,9 @@
+.main-view {
+    flex: 1;
+    height: 100%;
+}
+
+.image-view {
+    flex: 1;
+    height: 50%;
+}
