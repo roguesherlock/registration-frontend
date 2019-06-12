@@ -1,54 +1,90 @@
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 .spinner-class {
-	position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-	background: rgba( 255, 255, 255, .8 )
-                url('ajax_loader.gif')
-                50% 50%
-                no-repeat;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8) url("ajax_loader.gif") 50% 50% no-repeat;
 }
 .cs-dropdown {
   height: 30px;
 }
-.modal
-{
-    display: block;
-    overflow: visible
+
+.card-container {
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 400px;
+  margin: 80px 50px;
+  background-color: grey;
+}
+
+.card-header-container {
+  background-color: blue;
+  width: 100%;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.card-header {
+  padding: 20px;
+  font-size: 40px;
+  color: white;
+}
+
+.card-content-container {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+.card-content {
+  padding: 5px 50px;
+  color: white;
+  font-size: 30px;
+}
+
+.modal {
+  display: block;
+  overflow: visible;
 }
 #scrollable-dropdown-menu ul {
-	max-height: 150px;
-	overflow-y: auto;
+  max-height: 150px;
+  overflow-y: auto;
 }
-.my-css-class { background-color: #b9b4b4 !important; }
-input[type=number] {
-    -moz-appearance:textfield;
+.my-css-class {
+  background-color: #b9b4b4 !important;
 }
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.main-view{
-    height: 100vh;
-    margin: 0px;
-    padding: 20px;
-    background-color: #4D6F8E;
-    /* background-color: #B2D8D8; */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.main-view {
+  height: 100vh;
+  margin: 0px;
+  padding: 20px;
+  background-color: #4d6f8e;
+  /* background-color: #B2D8D8; */
 }
 
 .image-shadow {
-    /* transform: rotate(-10deg); */
-    /* background-color: #368180; */
-    background-color: #fff;
-    width: 50%;
-    height: 400px;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 3px 3px 10px 10px rgba(0, 0, 0, 0.4);
+  /* transform: rotate(-10deg); */
+  /* background-color: #368180; */
+  background-color: #fff;
+  width: 50%;
+  height: 350px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 3px 3px 10px 10px rgba(0, 0, 0, 0.4);
 }

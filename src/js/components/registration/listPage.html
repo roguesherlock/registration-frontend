@@ -1,10 +1,10 @@
 <div ng-if="$ctrl.showImage" class="main-view">
-    <div class="text-center" style="margin-top: 30px;" ng-click="$ctrl.enable(0)">
-        <img class="image-shadow" src="https://youth.dadabhagwan.org/media/215985/SC2019_YouthWeb.png" alt="Yuva!">
-    </div>
     <div class="text-center" ng-click="$ctrl.enable(1)" style="margin-top: 30px;">
         <img class="image-shadow" src="https://youth.dadabhagwan.org/media/78176/New-Yuva.png" alt="Yuva!">
     </div>
+    <!-- <div class="text-center" ng-click="$ctrl.enable(1)" style="margin-top: 30px;">
+        <img class="image-shadow" src="yuvA_PRO.png" alt="Yuva!">
+    </div> -->
 </div>
 
 
@@ -79,9 +79,9 @@
                     ng-click="$ctrl.goRegister('Yuva Camp')">Register</button>
             </div>
         </div>
-        <uib-accordion class="row">
+        <uib-accordion class="row" ng-if="$ctrl.events.length > 1">
             <div uib-accordion-group class="panel-success" style="font-size: 20px;"
-                ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date' | filter:{name: 'yuva'}">
+                ng-repeat="tempevent in $ctrl.events | orderBy: 'start_date' | filter:{name: 'pro'}">
                 <uib-accordion-heading>
                     <div style="font-size: 40px;">
                         {{tempevent.name}} - Age Group ({{tempevent.min_age}} - {{tempevent.max_age}}) -
@@ -114,5 +114,34 @@
                 </table>
             </div>
         </uib-accordion>
+        <div class="card-container" ng-if="$ctrl.events.length === 1">
+            <div class="card-header-container">
+                <div class="card-header">
+                    {{$ctrl.events[0].name}} - Age Group ({{$ctrl.events[0].min_age}} - {{$ctrl.events[0].max_age}}) -
+                    {{$ctrl.formatGender($ctrl.events[0].gender)}}
+                </div>
+            </div>
+            <div class="card-content-container">
+                <div class="card-content">
+                    Event Dates: {{$ctrl.formatDate($ctrl.events[0].start_date)}} -
+                    {{$ctrl.formatDate($ctrl.events[0].end_date)}}
+                </div>
+                <div class="card-content">
+                    Registration Fees: {{$ctrl.events[0].fees}}
+                </div>
+                <div class="card-content">
+                    Last date of registration: {{$ctrl.formatDate($ctrl.events[0].last_date_of_registration)}}
+                </div>
+                <div class="card-content">
+                    Late Fees: {{$ctrl.events[0].late_fees}}
+                </div>
+                <div class="card-content">
+                    Venue: {{$ctrl.events[0].venue.raw}}
+                </div>
+                <div class="card-content">
+                    Contact: {{$ctrl.events[0].remarks}}
+                </div>
+            </div>
+        </div>
     </div>
 </div>

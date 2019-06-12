@@ -79,7 +79,7 @@ gulp.task('build', ['html', 'browserify'], function() {
 				.pipe(concat("app.css"))
 				.pipe(gulp.dest("./dist/"));
 
-  var assets = gulp.src("src/js/ajax_loader.gif")
+  var assets = gulp.src(["src/js/ajax_loader.gif", "src/assets/*"])
            .pipe(gulp.dest("./dist/"));	 
 
   let paths = {

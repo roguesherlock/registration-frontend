@@ -3,7 +3,7 @@ class ParticipantCtrl {
         'ngInject';
 
         var vm = this;
-
+        vm.gridApis = {}
         vm.$onInit = function() {
             vm.user_id = User.current.id;
             vm.init();
@@ -149,8 +149,8 @@ class ParticipantCtrl {
             }
         ];
 
-        vm.filter = function(filterOption) {
-            vm.gridApi.grid.columns[1].filters[0].term = filterOption;
+        vm.filter = function(event_name, filterOption) {
+            vm.gridApis[event_name].grid.columns[1].filters[0].term = filterOption;
         }
 
         vm.initGrid = function(k, v) {
@@ -324,7 +324,7 @@ class ParticipantCtrl {
                     }*/
                 ],
                 onRegisterApi: function(gridApi) {
-                    vm.gridApi = gridApi;
+                    vm.gridApis[event.name] = gridApi;
                 }
                 //data: v
             }
@@ -335,9 +335,9 @@ class ParticipantCtrl {
             vm.grids.push([event, eventCenter, grid]);
         }
 
-        vm.export = function(type) {
+        vm.export = function(event_name, type) {
             var myElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
-            vm.gridApi.exporter.csvExport( type, type, myElement );
+            vm.gridApis[event_name].exporter.csvExport( type, type, myElement );
         }
 
 

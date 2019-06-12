@@ -6,37 +6,37 @@
       </ul>
       <ul class="nav navbar-nav" ng-if="$ctrl.user_id === 91">
         <li><a ui-sref="baseLogin.dashboard">Dashboard</a></li>
-      </ul>  
+      </ul>
       <div class="nav navbar-form navbar-right">
         <button type="button" class="btn btn-default" ng-click="$ctrl.logout()">Sign out</button>
       </div>
     </div>
   </div>
 </nav>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
-      <div class="nav navbar-form navbar-right">
-        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('')">Show All</button>
-        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('participant')">Participants</button>
-        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('helper')">Helpers</button>
-        <button type="button" class="btn btn-primary" ng-click="$ctrl.filter('coordinator')">Coordinators</button>
-        <button type="button" class="btn btn-primary" ng-click="$ctrl.export('all')">Export All</button>
-        <button type="button" class="btn btn-primary" ng-click="$ctrl.export('visible')">Export Visible</button>
+<div class="row-fluid" ng-repeat="grid in $ctrl.grids">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
+        <div class="nav navbar-form navbar-right">
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.filter(grid[0].name, '')">Show All</button>
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.filter(grid[0].name, 'participant')">Participants</button>
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.filter(grid[0].name, 'helper')">Helpers</button>
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.filter(grid[0].name, 'coordinator')">Coordinators</button>
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.export(grid[0].name, 'all')">Export All</button>
+          <button type="button" class="btn btn-primary" ng-click="$ctrl.export(grid[0].name, 'visible')">Export Visible</button>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
-<div class="row-fluid" ng-repeat="grid in $ctrl.grids">
+  </nav>
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">Participant List for {{grid[0].name}} - {{grid[1].name}}</h3>
     </div>
     <div class="panel-body">
-      <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns  ui-grid-pagination
-     ui-grid-resize-columns style="color: black"></div>
+      <div ui-grid="grid[2]" class="myGrid" ui-grid-exporter ui-grid-auto-fit-columns ui-grid-pagination
+        ui-grid-resize-columns style="color: black"></div>
     </div>
-  </div>  
+  </div>
 </div>
 <!-- <uib-tabset active="active">
     <uib-tab index="$index + 1" ng-repeat="grid in $ctrl.grids" heading="{{grid[0].name}} - {{grid[1].name}}">
