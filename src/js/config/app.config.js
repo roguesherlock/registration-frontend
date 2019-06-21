@@ -36,7 +36,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
             url: '/register',
             template: '<registration-form></registration-form>',
             params: {
-                val : 'Summer'
+                val : 'Yuva Camp'
             }
         })
         .state('base.listPage', {
