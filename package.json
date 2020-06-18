@@ -8,7 +8,7 @@
     "beautify": "gulp beautify"
   },
   "dependencies": {
-    "angular": "^1.5.0-rc.2",
+    "angular": "^1.8.0",
     "angular-google-chart": "^0.1.0",
     "angular-toastr": "^2.1.1",
     "angular-ui-bootstrap": "^2.5.0",
