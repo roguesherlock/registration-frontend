@@ -14,7 +14,7 @@
     "angular-ui-bootstrap": "^2.5.0",
     "angular-ui-grid": "^4.0.6",
     "angular-ui-router": "^0.4.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "marked": "^0.3.5",
     "merge-stream": "^1.0.0",
     "moment": "^2.18.1",
